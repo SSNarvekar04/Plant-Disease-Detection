@@ -1,0 +1,15 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+
+# Uploaded files kept on local disk (when Cloudinary is not configured)
+uploads/*
+!uploads/.gitkeep
+!uploads/README.md
+
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+coverage/

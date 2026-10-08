@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-soil-50 text-leaf-900 antialiased;
+    @apply dark:bg-leaf-950 dark:text-leaf-50;
+    font-feature-settings: 'cv02', 'cv03', 'cv04';
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight text-leaf-900 dark:text-leaf-50;
+  }
+
+  /* Consistent, visible focus ring for keyboard users. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-leaf-500 ring-offset-2 ring-offset-soil-50 dark:ring-offset-leaf-950;
+  }
+
+  /* Respect users who prefer less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   Reusable component classes
+   Keeping these here means a button looks identical on every page.
+   ========================================================================== */
+@layer components {
+  /* --- Layout ----------------------------------------------------------- */
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply rounded-2xl border border-leaf-100 bg-white shadow-card;
+    @apply dark:border-leaf-800 dark:bg-leaf-900/60 dark:shadow-none;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:border-leaf-300 hover:shadow-card-hover;
+    @apply dark:hover:border-leaf-700;
+  }
+
+  /* --- Buttons ---------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold;
+    @apply transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-primary {
+    @apply btn bg-leaf-600 text-white shadow-sm hover:bg-leaf-700 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply btn border border-leaf-200 bg-white text-leaf-800 hover:border-leaf-400 hover:bg-leaf-50;
+    @apply dark:border-leaf-700 dark:bg-leaf-900 dark:text-leaf-100 dark:hover:bg-leaf-800;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white shadow-sm hover:bg-red-700 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply btn text-leaf-700 hover:bg-leaf-100 dark:text-leaf-200 dark:hover:bg-leaf-800;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn-block {
+    @apply w-full;
+  }
+
+  /* --- Forms ------------------------------------------------------------ */
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-leaf-900 dark:text-leaf-100;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-leaf-200 bg-white px-4 py-2.5 text-sm text-leaf-900;
+    @apply placeholder:text-leaf-400 focus:border-leaf-500 focus:outline-none focus:ring-2 focus:ring-leaf-500/30;
+    @apply disabled:cursor-not-allowed disabled:bg-leaf-50;
+    @apply dark:border-leaf-700 dark:bg-leaf-950 dark:text-leaf-50 dark:placeholder:text-leaf-500;
+  }
+
+  .input-error {
+    @apply border-red-400 focus:border-red-500 focus:ring-red-500/30;
+  }
+
+  .form-error {
+    @apply mt-1.5 flex items-start gap-1 text-xs font-medium text-red-600 dark:text-red-400;
+  }
+
+  /* --- Badges ----------------------------------------------------------- */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  /* --- Tables ----------------------------------------------------------- */
+  .table-wrap {
+    @apply overflow-x-auto rounded-2xl border border-leaf-100 dark:border-leaf-800;
+  }
+
+  .table {
+    @apply w-full min-w-[640px] text-left text-sm;
+  }
+
+  .table thead th {
+    @apply bg-leaf-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-leaf-700;
+    @apply dark:bg-leaf-900 dark:text-leaf-300;
+  }
+
+  .table tbody td {
+    @apply border-t border-leaf-100 px-4 py-3 align-middle;
+    @apply dark:border-leaf-800;
+  }
+
+  .table tbody tr {
+    @apply transition-colors hover:bg-leaf-50/60 dark:hover:bg-leaf-800/40;
+  }
+
+  /* --- Section heading -------------------------------------------------- */
+  .section-eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.18em] text-leaf-600 dark:text-leaf-400;
+  }
+}
+
+@layer utilities {
+  /* Used by the disease detail page for long remedy paragraphs. */
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}

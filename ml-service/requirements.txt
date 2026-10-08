@@ -1,0 +1,34 @@
+# ---------------------------------------------------------------------------
+# Python dependencies for the ML service
+# Install with:  pip install -r requirements.txt
+#
+# TensorFlow 2.16+ requires Python 3.9 - 3.12. On Python 3.13 install
+# tensorflow-cpu instead (see the note at the bottom of this file).
+# ---------------------------------------------------------------------------
+
+# --- Web framework --------------------------------------------------------
+fastapi==0.115.6          # REST API for the model
+uvicorn[standard]==0.34.0 # ASGI server (ASGI server used by app.py)
+python-multipart==0.0.20  # required by FastAPI to accept multipart file uploads
+pydantic==2.10.4          # request/response validation
+
+# --- Deep learning --------------------------------------------------------
+tensorflow==2.18.0        # includes Keras 3
+numpy==1.26.4             # pinned: TF 2.18 is not compatible with numpy 2.x
+pillow==11.1.0            # image decoding / preprocessing
+
+# --- Utilities ------------------------------------------------------------
+python-dotenv==1.0.1      # reads ml-service/.env
+scikit-learn==1.6.0       # precision / recall / F1 in the training report
+matplotlib==3.9.4         # training accuracy + loss curves (optional)
+
+# ---------------------------------------------------------------------------
+# Verification tool:  python -c "import tensorflow; print(tensorflow.__version__)"
+#
+# Python 3.13 note: TensorFlow 2.18 has no 3.13 wheels. On 3.13 use:
+#   pip uninstall -y tensorflow
+#   pip install tensorflow-cpu==2.19.0
+# The rest of the requirements install unchanged.
+#
+# No GPU?  pip uninstall -y tensorflow && pip install tensorflow-cpu==2.18.0
+# ---------------------------------------------------------------------------

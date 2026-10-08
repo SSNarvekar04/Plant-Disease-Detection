@@ -1,0 +1,23 @@
+# The per-service .gitignore files already cover node_modules, .env, model
+# artefacts and build output. This file only covers what belongs to the whole
+# repository, so a stray file at the root is not committed either.
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and scratch files
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Local editor settings
+.vscode/
+.idea/
+
+# Never commit secrets, wherever they live
+.env
+.env.*
+!.env.example
