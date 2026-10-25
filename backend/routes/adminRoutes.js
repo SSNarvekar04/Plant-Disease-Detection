@@ -12,14 +12,14 @@
  *   DELETE /api/admin/users/:id         delete user + their predictions
  *   GET    /api/admin/predictions       all predictions (?user=&status=&plant=&search=)
  *   DELETE /api/admin/predictions/:id   delete one prediction record
- *   GET    /api/admin/ml-health         liveness check of the Python ML service
+ *   GET    /api/admin/ml-health         liveness check of the Plant.id API
  */
 
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 
 const controller = require('../controllers/adminController');
-const mlService = require('../services/mlService');
+const plantIdService = require('../services/plantIdService');
 const { adminOnly } = require('../middleware/adminMiddleware');
 const { asyncHandler } = require('../utils/helpers');
 
@@ -38,18 +38,16 @@ router.use(adminLimiter, ...adminOnly);
 // --- Dashboard ------------------------------------------------------------
 router.get('/statistics', controller.getStatistics);
 
-/** Tells the admin panel whether the real ML model is reachable. */
+/** Tells the admin panel whether the Plant.id API is configured and reachable. */
 router.get(
   '/ml-health',
   asyncHandler(async (_req, res) => {
-    const health = await mlService.checkHealth();
+    const health = await plantIdService.checkHealth();
     res.json({
       success: true,
       data: {
         ...health,
-        note: health.reachable
-          ? 'Connected to the TensorFlow prediction service'
-          : 'The ML service is not reachable. Predictions currently use the mock classifier.',
+        source: 'plant.id',
       },
     });
   })

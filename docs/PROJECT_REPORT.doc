@@ -1,0 +1,1157 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--[if gte mso 9]>
+<xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page {
+  size: 21.0cm 29.7cm;
+  margin: 1.0in 1.0in 1.0in 1.25in;
+  mso-header-margin: 36.0pt;
+  mso-footer-margin: 36.0pt;
+}
+@page Section1 {
+  size: 21.0cm 29.7cm;
+  margin: 1.0in 1.0in 1.0in 1.25in;
+  mso-header-margin: 36.0pt;
+  mso-footer-margin: 36.0pt;
+  mso-header: h1;
+  mso-footer: f1;
+}
+div.Section1 { page: Section1; }
+table#hrdftrtbl { margin: 0px 0px 0px 0px; }
+body {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 12.0pt;
+  line-height: 150%;
+  color: #000;
+}
+p {
+  margin: 0 0 6pt 0;
+  line-height: 150%;
+  text-align: justify;
+}
+h1, h2, h3, h4 {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1b3d6d;
+  page-break-after: avoid;
+}
+h1 { font-size: 16.0pt; font-weight: bold; text-align: center; margin-top: 18pt; margin-bottom: 8pt; }
+h2 { font-size: 14.0pt; font-weight: bold; margin-top: 14pt; margin-bottom: 6pt; }
+h3 { font-size: 12.0pt; font-weight: bold; margin-top: 12pt; margin-bottom: 4pt; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8pt 0 12pt 0;
+  font-size: 10.0pt;
+}
+table, th, td {
+  border: 1.0pt solid #333333;
+}
+th {
+  background-color: #1b3d6d;
+  color: #ffffff;
+  padding: 6pt 8pt;
+  font-weight: bold;
+}
+td {
+  padding: 5pt 8pt;
+  vertical-align: top;
+}
+pre, code {
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 9.5pt;
+  background-color: #f1f5f9;
+}
+pre {
+  padding: 8pt;
+  border: 1pt solid #cbd5e1;
+  white-space: pre-wrap;
+}
+.page {
+  page-break-after: always;
+  mso-break-type: section-break;
+  padding-bottom: 20pt;
+}
+</style>
+</head>
+<body>
+<div class="Section1">
+
+
+
+
+<!-- ================= PAGE 1: TITLE PAGE ================= -->
+<div class="page">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body" style="text-align: center; justify-content: space-around;">
+    <div>
+      <div class="title-doc-name">D.K.T.E. SOCIETY’S TEXTILE AND ENGINEERING INSTITUTE, ICHALKARANJI</div>
+      <div class="title-sub-inst">(An Empowered Autonomous Institute, Affiliated to Shivaji University, Kolhapur)</div>
+      <div class="title-dept">DEPARTMENT OF MCA</div>
+      
+      <div class="title-report-title">A PROJECT REPORT ENTITLED<br><span style="font-size: 11pt; font-weight: normal;">ON</span></div>
+      
+      <div class="title-proj-box">[PLANT DISEASE DETECTION &amp; REMEDY RECOMMENDATION SYSTEM]</div>
+      
+      <div style="font-size: 10pt; font-weight: bold; margin: 10px 0; text-transform: uppercase;">
+        SUBMITTED IN PARTIAL FULFILLMENT OF THE REQUIREMENTS FOR THE DEGREE OF MASTER OF COMPUTER APPLICATION
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size: 11pt; font-weight: bold; margin-bottom: 4px;">BY</div>
+      <div style="font-size: 13pt; font-weight: bold; color: #000;">Ms. Saloni Sachindranath Narvekar</div>
+      
+      <div style="font-size: 11pt; font-weight: bold; margin-top: 15px; margin-bottom: 4px;">UNDER THE GUIDANCE OF</div>
+      <div style="font-size: 12pt; font-weight: bold; color: #000;">Prof. [Project Guide Name]</div>
+    </div>
+
+    <div>
+      <div class="dkte-badge">D K T E</div>
+      <div class="dkte-badge-sub">Promoting Excellence in Teaching, Learning &amp; Research</div>
+      
+      <div style="font-size: 10.5pt; font-weight: bold; margin-top: 15px; text-transform: uppercase;">THROUGH THE DIRECTOR</div>
+      <div style="font-size: 11pt; font-weight: bold;">D.K.T.E. S’s TEXTILE AND ENGINEERING INSTITUTE,<br>ICHALKARANJI – 416115</div>
+      <div style="font-size: 11pt; font-weight: bold; margin-top: 4px;">ACADEMIC YEAR: 2026–2027</div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 1</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 2: CERTIFICATE ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="text-align: center; font-size: 16pt; font-weight: bold; margin-top: 10px; margin-bottom: 25px; letter-spacing: 1px;">CERTIFICATE</div>
+    
+    <p style="line-height: 1.8;">
+      This is to certify that the project report entitled <strong>“PLANT DISEASE DETECTION &amp; REMEDY RECOMMENDATION SYSTEM”</strong> is a record of the project work carried out by <strong>Ms. Saloni Sachindranath Narvekar</strong> in partial fulfillment of the requirements for the degree of <strong>Master of Computer Application, Semester-III</strong>, at D.K.T.E. Society’s Textile and Engineering Institute, Ichalkaranji.
+    </p>
+
+    <p style="line-height: 1.8;">
+      The project work was carried out under the guidance of <strong>Prof. [Project Guide Name]</strong> and is submitted in accordance with the academic requirements of the institute for the academic year <strong>2026–2027</strong>.
+    </p>
+
+    <p style="line-height: 1.8;">
+      The report has been reviewed for academic submission. The student details, project title, semester, and academic year have been verified before the certificate is signed.
+    </p>
+
+    <div style="margin-top: 30px;">
+      <table style="width: 100%; border: 1px solid #000; font-size: 10.5pt;">
+        <tr>
+          <td style="width: 50%; padding: 12px; vertical-align: top;">
+            <strong>Project Guide</strong><br><br>
+            Name: __________________________<br><br>
+            Signature: ______________________<br><br>
+            Date: ___________________________
+          </td>
+          <td style="width: 50%; padding: 12px; vertical-align: top;">
+            <strong>Head of the Department</strong><br><br>
+            Name: __________________________<br><br>
+            Signature: ______________________<br><br>
+            Date: ___________________________
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; vertical-align: top;">
+            <strong>Examiner 1:</strong> __________________________
+          </td>
+          <td style="padding: 12px; vertical-align: top;">
+            <strong>Examiner 2:</strong> __________________________
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <p style="margin-top: 25px; font-weight: bold;">Place: Ichalkaranji</p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 2</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 3: GUIDE'S CERTIFICATE ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="text-align: center; font-size: 16pt; font-weight: bold; margin-top: 15px; margin-bottom: 30px; letter-spacing: 1px;">GUIDE’S CERTIFICATE</div>
+    
+    <p style="line-height: 1.9;">
+      I hereby certify that the project entitled <strong>“PLANT DISEASE DETECTION &amp; REMEDY RECOMMENDATION SYSTEM”</strong> has been developed by <strong>Ms. Saloni Sachindranath Narvekar</strong> under my guidance.
+    </p>
+
+    <p style="line-height: 1.9;">
+      The student has undertaken the project work, studied the relevant concepts of Deep Learning, Computer Vision, Convolutional Neural Networks, and Generative Artificial Intelligence, implemented the proposed web application, and prepared the accompanying documentation.
+    </p>
+
+    <p style="line-height: 1.9;">
+      The work has been reviewed by me and is submitted for academic evaluation. The project has been carried out under my supervision, subject to the institute’s applicable academic integrity requirements.
+    </p>
+
+    <div style="margin-top: 70px;">
+      <p style="font-size: 11pt; font-weight: bold; margin-bottom: 25px;">Project Guide</p>
+      <p style="line-height: 2;">
+        Name: __________________________________________<br>
+        Designation: _____________________________________<br>
+        Signature: _______________________________________<br>
+        Date: ____________________________________________
+      </p>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 3</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 4: STUDENT DECLARATION ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="text-align: center; font-size: 16pt; font-weight: bold; margin-top: 5px; margin-bottom: 15px; letter-spacing: 1px;">STUDENT DECLARATION</div>
+    
+    <p style="margin-bottom: 8px;"><strong>To,</strong><br>The Registrar,<br>Shivaji University, Kolhapur.</p>
+
+    <p>
+      I, the undersigned, hereby declare that the project report entitled <strong>“PLANT DISEASE DETECTION &amp; REMEDY RECOMMENDATION SYSTEM”</strong>, submitted under the guidance of <strong>Prof. [Guide Name]</strong> is my original work carried out as part of the Master of Computer Application programme at D.K.T.E. Society’s Textile and Engineering Institute, Ichalkaranji.
+    </p>
+
+    <p>
+      I further declare that the empirical findings and results presented in this report are based on the work and information collected by me. I have not copied this report from another report submitted to Shivaji University, Kolhapur. All external sources, software libraries, datasets, APIs, and Artificial Intelligence tools used have been acknowledged. Any AI-assisted code has been reviewed, tested, and verified by me in accordance with academic integrity requirements.
+    </p>
+
+    <p>I understand that plagiarism or misrepresentation may be dealt with under the applicable university and institute rules.</p>
+
+    <ol style="margin-bottom: 15px; font-size: 10pt; line-height: 1.4;">
+      <li>The project has been developed by me under the guidance of the assigned project guide.</li>
+      <li>The information, results, screenshots, and observations presented in this report are accurate to the best of my knowledge.</li>
+      <li>All external sources, research papers, software libraries, datasets, APIs, and AI tools used in the project have been appropriately acknowledged.</li>
+      <li>The use of AI services, including cloud vision models and code utilities, has been disclosed wherever applicable.</li>
+      <li>I have not knowingly presented another person’s work as my own.</li>
+      <li>This project has not been submitted elsewhere for academic evaluation unless explicitly permitted by the institute.</li>
+    </ol>
+
+    <p style="line-height: 1.8; margin-top: 10px;">
+      Student Name: <strong>Ms. Saloni Sachindranath Narvekar</strong><br>
+      Roll Number: ___________________________________________<br>
+      Signature: _____________________________________________<br>
+      Date: ____________________________________________________
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 4</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 5: ACKNOWLEDGEMENT ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="text-align: center; font-size: 16pt; font-weight: bold; margin-top: 10px; margin-bottom: 25px; letter-spacing: 1px;">ACKNOWLEDGEMENT</div>
+    
+    <p style="line-height: 1.8;">
+      I have been fortunate to receive assistance, suggestions, and support from my project guide, faculty members, friends, and the institute during the development of my project entitled <strong>“PLANT DISEASE DETECTION &amp; REMEDY RECOMMENDATION SYSTEM”</strong>.
+    </p>
+
+    <p style="line-height: 1.8;">
+      First and foremost, I express my sincere gratitude to my respected project guide, <strong>Prof. [Guide Name]</strong>, for valuable guidance, constructive suggestions, and kind support throughout the project work.
+    </p>
+
+    <p style="line-height: 1.8;">
+      I take this opportunity to thank the <strong>Head of the Department of MCA</strong>, all teaching and non-teaching staff members, and my friends for their continuous cooperation, valuable insights, and encouragement.
+    </p>
+
+    <p style="line-height: 1.8;">
+      I also sincerely thank the staff of the computer laboratory for their cooperation and for providing the computing infrastructure, server resources, and network connectivity required to complete the project within the available time.
+    </p>
+
+    <p style="line-height: 1.8;">
+      I acknowledge the developers and providers of open-source software tools, React.js, Node.js, Express.js, MongoDB, the Plant.id API team, and agricultural research institutions for the datasets and technical documentation used in the project.
+    </p>
+
+    <div style="margin-top: 50px;">
+      <p style="font-weight: bold; line-height: 1.8;">
+        Ms. Saloni Sachindranath Narvekar<br>
+        (MCA-II, Semester-III)
+      </p>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 5</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 6: ABSTRACT ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="text-align: center; font-size: 16pt; font-weight: bold; margin-top: 10px; margin-bottom: 20px; letter-spacing: 1px;">ABSTRACT</div>
+    
+    <p>
+      This project focuses on the development of the <strong>Plant Disease Detection &amp; Remedy Recommendation System</strong> using Artificial Intelligence, Computer Vision, and modern full-stack web engineering. Agriculture sustains over half of India's population; however, foliar crop diseases cause devastating annual losses of 20% to 40% of agricultural production.
+    </p>
+
+    <p>
+      The existing approach to plant disease diagnosis faces severe challenges, including subjective visual guesswork, long delays in laboratory extension testing, and digital tools that identify disease names but fail to provide practical, actionable remediation advice. To address these issues, the proposed system uses Deep Learning Computer Vision models through the <strong>Plant.id API v3</strong> to classify crop leaf diseases from photographs and pair them with comprehensive, curated remedy plans.
+    </p>
+
+    <p>
+      The application is developed using <strong>React 18</strong>, <strong>Vite</strong>, and <strong>Tailwind CSS</strong> on the frontend, <strong>Node.js</strong> and <strong>Express.js</strong> on the backend, and <strong>MongoDB</strong> with Mongoose ODM for data storage. The AI vision component classifies botanical species and scores disease likelihoods. A custom matching service (<code>diseaseMatchService</code>) resolves the output against a curated knowledge base, generating symptoms, causes, <strong>organic remedies</strong> (such as neem oil and Trichoderma), <strong>chemical treatments</strong> (such as targeted fungicides and fertilizers), and <strong>prevention checklists</strong>.
+    </p>
+
+    <p>
+      The system provides key features including instant drag-and-drop leaf upload, in-memory magic-byte verification, stateless JWT authentication, scan history logging with trend visualization, and an administrative CRUD catalogue manager. The project is evaluated through 69 automated test cases (100% pass rate). The proposed application aims to improve diagnosis speed, minimize pesticide expenses, promote sustainable organic farming, and democratize agricultural advisory access for smallholder farmers.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 6</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 7: TABLE OF CONTENTS ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="text-align: center; font-size: 15pt; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px;">TABLE OF CONTENTS</div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 12%;">Sr. No.</th>
+          <th style="width: 73%; text-align: left;">Contents</th>
+          <th style="width: 15%;">Page No.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="center">1</td><td>Chapter 1: Introduction</td><td class="center">11</td></tr>
+        <tr><td class="center">2</td><td>Chapter 2: Existing System and Problem Analysis</td><td class="center">12</td></tr>
+        <tr><td class="center">3</td><td>Chapter 3: Proposed System</td><td class="center">13</td></tr>
+        <tr><td class="center">4</td><td>Chapter 4: Artificial Intelligence Components Used</td><td class="center">15</td></tr>
+        <tr><td class="center">5</td><td>Chapter 5: System Analysis and Design</td><td class="center">17</td></tr>
+        <tr><td class="center">6</td><td>Chapter 6: Hardware and Software Requirements</td><td class="center">18</td></tr>
+        <tr><td class="center">7</td><td>Chapter 7: Implementation</td><td class="center">19</td></tr>
+        <tr><td class="center">8</td><td>Chapter 8: Testing and Results</td><td class="center">20</td></tr>
+        <tr><td class="center">9</td><td>Chapter 9: Scope, Limitations and Future Enhancements</td><td class="center">21</td></tr>
+        <tr><td class="center">10</td><td>Chapter 10: Conclusion</td><td class="center">22</td></tr>
+        <tr><td class="center">11</td><td>Bibliography / References</td><td class="center">23</td></tr>
+        <tr><td class="center">12</td><td>Appendices (A to I)</td><td class="center">24</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 7</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 8: LIST OF FIGURES ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="text-align: center; font-size: 15pt; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px;">LIST OF FIGURES</div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 20%;">Figure No.</th>
+          <th style="width: 65%; text-align: left;">Figure Title</th>
+          <th style="width: 15%;">Page No.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="center">Fig. 5.1</td><td>System Architecture Diagram</td><td class="center">17</td></tr>
+        <tr><td class="center">Fig. 5.2</td><td>Use Case Diagram</td><td class="center">17</td></tr>
+        <tr><td class="center">Fig. 5.3</td><td>Data Flow Diagram (Level 0 and Level 1 DFD)</td><td class="center">17</td></tr>
+        <tr><td class="center">Fig. 5.4</td><td>Activity / Sequence Processing Flowchart</td><td class="center">17</td></tr>
+        <tr><td class="center">Fig. 5.5</td><td>Entity-Relationship (ER) Database Schema Diagram</td><td class="center">17</td></tr>
+        <tr><td class="center">Fig. 7.1</td><td>Application Home Screen and Supported Plant Grid</td><td class="center">19</td></tr>
+        <tr><td class="center">Fig. 7.2</td><td>Interactive Leaf Image Upload &amp; Validation Interface</td><td class="center">19</td></tr>
+        <tr><td class="center">Fig. 7.3</td><td>AI Diagnosis Result &amp; Structured Remedy Screen</td><td class="center">19</td></tr>
+        <tr><td class="center">Fig. 8.1</td><td>Automated Test Suite Execution (69 Tests Passed)</td><td class="center">20</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 8</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 9: LIST OF TABLES ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="text-align: center; font-size: 15pt; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px;">LIST OF TABLES</div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 20%;">Table No.</th>
+          <th style="width: 65%; text-align: left;">Table Title</th>
+          <th style="width: 15%;">Page No.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="center">Table 2.1</td><td>Comparative Analysis: Existing vs. Proposed System</td><td class="center">12</td></tr>
+        <tr><td class="center">Table 3.1</td><td>Major Functional Modules and Architecture</td><td class="center">13</td></tr>
+        <tr><td class="center">Table 4.1</td><td>Artificial Intelligence &amp; Vision Components</td><td class="center">15</td></tr>
+        <tr><td class="center">Table 5.1</td><td>Users Collection Data Dictionary</td><td class="center">17</td></tr>
+        <tr><td class="center">Table 5.2</td><td>Diseases Collection Data Dictionary</td><td class="center">17</td></tr>
+        <tr><td class="center">Table 5.3</td><td>Predictions Collection Data Dictionary</td><td class="center">17</td></tr>
+        <tr><td class="center">Table 6.1</td><td>Hardware Requirements and Specifications</td><td class="center">18</td></tr>
+        <tr><td class="center">Table 6.2</td><td>Software Requirements and Versions</td><td class="center">18</td></tr>
+        <tr><td class="center">Table 8.1</td><td>Test Cases, Test Scenarios and Results</td><td class="center">20</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 9</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 10: ABBREVIATIONS ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="text-align: center; font-size: 15pt; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px;">ABBREVIATIONS AND TERMINOLOGY</div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Abbreviation</th>
+          <th style="width: 75%; text-align: left;">Full Form / Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="center"><strong>AI</strong></td><td>Artificial Intelligence</td></tr>
+        <tr><td class="center"><strong>API</strong></td><td>Application Programming Interface</td></tr>
+        <tr><td class="center"><strong>CNN</strong></td><td>Convolutional Neural Network</td></tr>
+        <tr><td class="center"><strong>CORS</strong></td><td>Cross-Origin Resource Sharing</td></tr>
+        <tr><td class="center"><strong>CRUD</strong></td><td>Create, Read, Update, Delete</td></tr>
+        <tr><td class="center"><strong>DFD</strong></td><td>Data Flow Diagram</td></tr>
+        <tr><td class="center"><strong>DOM</strong></td><td>Document Object Model</td></tr>
+        <tr><td class="center"><strong>ERD</strong></td><td>Entity-Relationship Diagram</td></tr>
+        <tr><td class="center"><strong>HMR</strong></td><td>Hot Module Replacement</td></tr>
+        <tr><td class="center"><strong>HTTP / HTTPS</strong></td><td>Hypertext Transfer Protocol (Secure)</td></tr>
+        <tr><td class="center"><strong>JSON</strong></td><td>JavaScript Object Notation</td></tr>
+        <tr><td class="center"><strong>JWT</strong></td><td>JSON Web Token</td></tr>
+        <tr><td class="center"><strong>MERN</strong></td><td>MongoDB, Express.js, React.js, Node.js</td></tr>
+        <tr><td class="center"><strong>NoSQL</strong></td><td>Not Only Structured Query Language (Document Database)</td></tr>
+        <tr><td class="center"><strong>ODM</strong></td><td>Object Data Modeling (Mongoose)</td></tr>
+        <tr><td class="center"><strong>RBAC</strong></td><td>Role-Based Access Control</td></tr>
+        <tr><td class="center"><strong>REST</strong></td><td>Representational State Transfer</td></tr>
+        <tr><td class="center"><strong>SPA</strong></td><td>Single Page Application</td></tr>
+        <tr><td class="center"><strong>UI / UX</strong></td><td>User Interface / User Experience</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 10</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 11: CHAPTER 1 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 1: INTRODUCTION</div>
+    
+    <div class="section-heading">1.1 Introduction to the Project</div>
+    <p>
+      The <strong>Plant Disease Detection &amp; Remedy Recommendation System</strong> is an intelligent, automated web platform developed to assist farmers and agronomists in identifying crop leaf diseases and obtaining actionable recovery plans. Crop diseases caused by fungi, bacteria, viruses, or nutrient deficiencies lead to massive losses in agricultural yield. This project accepts a photo of an infected leaf, runs Deep Learning Computer Vision inference via the Plant.id API, and matches the diagnosis with a curated MongoDB knowledge base to generate instant symptoms, causes, organic treatments, chemical controls, and preventive measures.
+    </p>
+
+    <div class="section-heading">1.2 Background of the Project</div>
+    <p>
+      Traditional diagnosis requires physical inspection by agricultural officers or sending leaf samples to laboratories, taking days or weeks during which infections spread uncontrollably. Recent advances in Convolutional Neural Networks (CNNs) have enabled accurate visual feature extraction from leaf surfaces. By coupling cloud computer vision APIs with responsive web technologies (React, Node.js, Express, MongoDB), laboratory-grade diagnostics can be brought directly to rural farmers.
+    </p>
+
+    <div class="section-heading">1.3 Motivation</div>
+    <p>
+      The motivation arises from the urgent need to bridge the gap between detection and action. Existing applications stop at outputting disease names without treatment guidance, leading to pesticide guesswork, high input costs, and environmental degradation. Providing actionable organic and chemical remedies protects crop yields and supports sustainable farming.
+    </p>
+
+    <div class="section-heading">1.4 Problem Statement</div>
+    <p>
+      <em>“To design and develop a full-stack web application using Deep Learning Artificial Intelligence to address agricultural foliar disease identification by providing instant species classification, disease diagnosis, and structured organic and chemical remedy recommendations to farmers and agronomists.”</em>
+    </p>
+
+    <div class="section-heading">1.5 Objectives of the Project</div>
+    <ul>
+      <li>To study existing disease diagnosis methods and computer vision architectures.</li>
+      <li>To design a mobile-responsive, intuitive user interface for farmers.</li>
+      <li>To integrate the Plant.id API v3 for high-accuracy leaf pathology detection.</li>
+      <li>To implement an intelligent matching engine linking diagnoses to curated remedies.</li>
+      <li>To evaluate system accuracy, response times, and security through comprehensive automated testing.</li>
+    </ul>
+
+    <div class="section-heading">1.6 Scope of the Project</div>
+    <p>
+      Covers 7 key crops (Tomato, Potato, Apple, Grape, Corn, Pepper, Strawberry) and 31+ distinct diseases and nutritional disorders, offering dual-track organic and chemical remedy plans on all modern browsers.
+    </p>
+
+    <div class="section-heading">1.7 Organization of the Report</div>
+    <p>
+      The report is structured into 10 chapters covering literature analysis, system architecture, AI implementation, database design, hardware/software specifications, testing results, and future enhancements.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 11</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 12: CHAPTER 2 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 2: EXISTING SYSTEM AND PROBLEM ANALYSIS</div>
+    
+    <div class="section-heading">2.1 Overview of the Existing System</div>
+    <p>
+      In the current agricultural landscape, crop disease identification relies primarily on manual visual inspection by farmers, informal consultation with pesticide shopkeepers, or physical visits by agricultural extension officers.
+    </p>
+
+    <div class="section-heading">2.2 Working of the Existing System</div>
+    <p>
+      When a farmer observes leaf yellowing or spots, they either consult local fertilizer dealers—who often prescribe expensive broad-spectrum chemicals—or submit samples to agricultural research centers, which entails turnaround times of 7 to 14 days.
+    </p>
+
+    <div class="section-heading">2.3 Limitations of the Existing System</div>
+    <ul>
+      <li><strong>Diagnostic Inaccuracy:</strong> Different pathogens produce overlapping visual symptoms that are frequently misidentified by visual inspection.</li>
+      <li><strong>Severe Time Delays:</strong> Laboratory culture reports arrive days after infections have spread across entire fields.</li>
+      <li><strong>Excessive Chemical Expenses:</strong> Guesswork leads to over-spraying synthetic fungicides, raising input costs and inducing pathogen resistance.</li>
+      <li><strong>Lack of Advisory in Digital Tools:</strong> Existing mobile apps output disease labels but offer no structured recovery plans.</li>
+    </ul>
+
+    <div class="section-heading">2.4 Literature Review</div>
+    <p>
+      Mohanty et al. (2016) demonstrated 99.35% classification accuracy on 54,306 leaf images using CNNs (PlantVillage dataset), proving deep learning's efficacy in mobile diagnostics. Hughes &amp; Salathé (2015) highlighted the necessity of accessible computer vision to replace slow laboratory cultures.
+    </p>
+
+    <div class="section-heading">2.5 Comparative Analysis</div>
+    <p style="font-weight: bold; margin-bottom: 2px;">Table 2.1: Comparative Analysis</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Existing System</th>
+          <th>Proposed System</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Turnaround Time</strong></td><td>7 to 14 days</td><td>Instantaneous (2 to 4 seconds)</td></tr>
+        <tr><td><strong>Diagnostic Method</strong></td><td>Subjective visual inspection</td><td>Deep Learning Computer Vision (Plant.id v3)</td></tr>
+        <tr><td><strong>Remedy Guidance</strong></td><td>Absent or generic commercial sales</td><td>Structured Organic Remedies + Chemical Treatments</td></tr>
+        <tr><td><strong>History Tracking</strong></td><td>Manual / None</td><td>Secure MongoDB user scan history &amp; trend charts</td></tr>
+        <tr><td><strong>Integrity Checks</strong></td><td>Guesses on invalid images</td><td>Magic-byte validation, non-plant photo rejection</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-heading">2.6 Problem Identification &amp; 2.7 Need for the Proposed System</div>
+    <p>
+      The core problem is the disconnect between identification and actionable treatment. An automated, accessible web system is urgently needed to provide immediate, low-cost organic and chemical remedies.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 12</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 13: CHAPTER 3 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 3: PROPOSED SYSTEM</div>
+    
+    <div class="section-heading">3.1 Introduction &amp; 3.2 Overview of the Proposed System</div>
+    <p>
+      The proposed system is a full-stack Single Page Application (SPA) that accepts leaf photographs, performs deep-learning computer vision analysis, resolves diagnoses against a curated agricultural knowledge base, and outputs comprehensive agronomic recovery advisories.
+    </p>
+
+    <div class="section-heading">3.3 Proposed System Architecture</div>
+    <p>
+      The architecture follows a decoupled three-tier model: React 18 + Vite on the presentation layer, Node.js + Express.js on the application layer, and MongoDB for persistence, integrated with the external Plant.id AI API over secure HTTPS.
+    </p>
+
+    <div class="section-heading">3.4 Major Features</div>
+    <ul>
+      <li><strong>Drag-and-Drop Uploader:</strong> Client-side preview, file type enforcement, and progress tracking.</li>
+      <li><strong>Deep Vision Analysis:</strong> Instant species identification, disease classification, and confidence scoring.</li>
+      <li><strong>Actionable Dual Advisory:</strong> Clear separation into Organic Remedies, Chemical Treatments, Symptoms, and Causes.</li>
+      <li><strong>Scan History &amp; Analytics:</strong> Longitudinal tracking of recurring crop infections with visual analytics.</li>
+      <li><strong>Admin Portal:</strong> Role-based access control for dynamic knowledge base updates without code modification.</li>
+    </ul>
+
+    <div class="section-heading">3.5 Functional Requirements</div>
+    <ul>
+      <li>The system shall accept JPG, JPEG, and PNG leaf images up to 5 MB.</li>
+      <li>The system shall validate image magic bytes to prevent malicious non-image file uploads.</li>
+      <li>The system shall authenticate users with signed stateless JSON Web Tokens.</li>
+      <li>The system shall query the AI engine and return diagnosis and confidence scores.</li>
+      <li>The system shall display organic remedies, chemical treatments, and prevention checklists.</li>
+    </ul>
+
+    <div class="section-heading">3.6 Non-Functional Requirements</div>
+    <p>
+      <strong>Performance:</strong> Inference turnaround within 2 to 4 seconds. <strong>Security:</strong> 12-round Bcrypt password hashing and JWT token expiration. <strong>Usability:</strong> Responsive layout supporting mobile, tablet, and desktop viewports.
+    </p>
+
+    <div class="section-heading">3.7 Module Description</div>
+    <p style="font-weight: bold; margin-bottom: 2px;">Table 3.1: Major Functional Modules</p>
+    <table>
+      <thead>
+        <tr><th>Module</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>User Interface</strong></td><td>React SPA rendering upload dropzones, remedy views, and history dashboards.</td></tr>
+        <tr><td><strong>Input Processing</strong></td><td>MIME-type validation, size restrictions, and in-memory Multer buffer parsing.</td></tr>
+        <tr><td><strong>AI Integration</strong></td><td><code>plantIdService.js</code> handling Base64 streaming, API headers, and response mapping.</td></tr>
+        <tr><td><strong>Disease Matcher</strong></td><td><code>diseaseMatchService.js</code> resolving taxonomic suggestions to MongoDB remedy records.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 13</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 14: CHAPTER 3 CONT. ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div style="font-size: 11.5pt; font-weight: bold; color: #1b3d6d; margin-bottom: 6px;">Table 3.1 (Continued): Module Description</div>
+    <table>
+      <thead>
+        <tr><th>Module</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Output Processing</strong></td><td>Formats confidence percentages, severity badges, and structured remedy bullet points.</td></tr>
+        <tr><td><strong>Database Module</strong></td><td>Mongoose models for Users, Diseases, and Predictions with soft referencing.</td></tr>
+        <tr><td><strong>Error Handling</strong></td><td>Graceful 503 fallback on AI outage, 400 on non-plant photos, and concurrency guards.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-heading">3.8 Advantages of the Proposed System</div>
+    <ul>
+      <li><strong>Bridging Diagnosis with Treatment:</strong> Provides complete biological and chemical solutions rather than unhelpful Latin names.</li>
+      <li><strong>Reduced Cultivation Costs:</strong> Recommends accessible organic alternatives (neem oil, Trichoderma, compost) before synthetic chemicals.</li>
+      <li><strong>Zero Storage Leakage:</strong> In-memory RAM buffering ensures zero orphaned images if external AI queries fail.</li>
+      <li><strong>Longitudinal Monitoring:</strong> Persistent history logs allow farmers to track disease recurrence across crop cycles.</li>
+    </ul>
+
+    <div class="section-heading">3.9 Feasibility Study</div>
+    <p>
+      <strong>Technical Feasibility:</strong> Built on industry-standard MERN stack components and proven RESTful computer vision APIs. Development skills in JavaScript, React, and Node.js are well established and fully supported.
+    </p>
+    <p>
+      <strong>Economic Feasibility:</strong> Utilizes free, open-source development frameworks and database engines. Cloud AI API tiers are highly economical and scalable, making the platform cost-effective for deployment.
+    </p>
+    <p>
+      <strong>Operational Feasibility:</strong> The interface requires no specialized technical training. Farmers simply take or upload a photograph and read structured advice formatted with intuitive visual icons and badges.
+    </p>
+    <p>
+      <strong>Schedule Feasibility:</strong> Project milestones were divided across 5 phases spanning 15 weeks, completed in accordance with academic semester schedules.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 14</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 15: CHAPTER 4 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 4: ARTIFICIAL INTELLIGENCE COMPONENTS USED</div>
+    
+    <div class="section-heading">4.1 Introduction to Artificial Intelligence in Agriculture</div>
+    <p>
+      Artificial Intelligence—specifically Deep Learning Computer Vision using Convolutional Neural Networks (CNNs)—has revolutionized plant pathology. CNNs autonomously extract hierarchical visual features such as chlorosis, necrotic lesion patterns, and fungal pustules from leaf pixels, outperforming traditional manual heuristics.
+    </p>
+
+    <div class="section-heading">4.2 AI Model Used</div>
+    <p>
+      The project integrates the <strong>Plant.id API v3</strong>, developed by FlowerChecker s.r.o. The underlying architecture uses multi-task deep convolutional neural networks trained on over 30 million botanical and phytopathological images, capable of dual-task classification: taxonomic species identification and foliar disease probability estimation.
+    </p>
+
+    <div class="section-heading">4.3 Generative / AI Components</div>
+    <p style="font-weight: bold; margin-bottom: 2px;">Table 4.1: AI Components &amp; Roles</p>
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Description</th><th>Use in Project</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Computer Vision CNN</strong></td><td>Multi-class deep neural network for visual feature extraction</td><td>Identifies plant species and classifies disease condition</td></tr>
+        <tr><td><strong>API Integration</strong></td><td>HTTPS endpoint over TLS 1.3 with JSON/Base64 payload</td><td>Transmits leaf image buffer from Node.js backend</td></tr>
+        <tr><td><strong>Payload Engineering</strong></td><td>Structured request design (<code>health: 'all'</code>)</td><td>Instructs model to return health &amp; ranked diseases</td></tr>
+        <tr><td><strong>Retrieval / RAG Layer</strong></td><td>Taxonomic matching over MongoDB knowledge base</td><td>Fetches curated organic and chemical remedy plans</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-heading">4.4 Payload Engineering and Design</div>
+    <p>
+      Computer vision services require precisely structured parameter configurations. In <code>plantIdService.js</code>, payloads are structured to ensure both species identification and ranked disease probabilities are extracted simultaneously:
+    </p>
+    <p style="text-indent: 0;">
+      <code>{ images: [base64String], health: "all", classification_level: "species" }</code>
+    </p>
+    <p>
+      This payload instructs the vision model to analyze overall plant health, restrict botanical suggestions to the species level, and return empirical confidence ratings for every detected anomaly.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 15</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 16: CHAPTER 4 CONT. ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="section-heading">4.5 Workflow of the AI Component</div>
+    <ol style="font-size: 10pt; line-height: 1.45;">
+      <li>User submits a leaf photo via the React interface.</li>
+      <li>The application validates MIME type and file size constraints on the client.</li>
+      <li>Express backend receives image buffer into RAM and validates magic bytes.</li>
+      <li>Backend encodes buffer into Base64 and dispatches secure HTTPS POST request.</li>
+      <li>Plant.id CNN vision models infer features, returning species taxonomy and disease probabilities.</li>
+      <li>Backend validates the <code>is_plant</code> binary flag; if false, it cleanly prompts the user.</li>
+      <li><code>diseaseMatchService</code> resolves top-1 disease suggestion against MongoDB catalogue records.</li>
+      <li>The application processes the result and displays diagnosis and complete remedy cards.</li>
+    </ol>
+
+    <div class="section-heading">4.6 Model Parameters and Configuration</div>
+    <ul>
+      <li><strong>Endpoint:</strong> <code>https://api.plant.id/v3/identification</code></li>
+      <li><strong>HTTP Method:</strong> <code>POST</code> with <code>Api-Key</code> authentication header</li>
+      <li><strong>Classification Level:</strong> <code>species</code></li>
+      <li><strong>Health Assessment:</strong> <code>all</code> (returns health status + disease suggestions)</li>
+      <li><strong>Timeout:</strong> 45,000 ms (handles high-latency rural mobile internet)</li>
+    </ul>
+
+    <div class="section-heading">4.7 AI Output Validation</div>
+    <p>
+      To prevent incorrect responses: (1) Non-plant images are detected via <code>result.is_plant.binary === false</code> and rejected with an HTTP 400 prompt. (2) Confidence scores below 70% are automatically flagged as <code>low_confidence</code> with a recommendation to upload clearer lighting. (3) Outages and missing keys return friendly 503 status codes rather than invented fallback results.
+    </p>
+
+    <div class="section-heading">4.8 Responsible AI Considerations</div>
+    <p>
+      Leaf images contain zero personal data, ensuring privacy. The secret API key is isolated server-side. Every diagnosis includes an agronomic disclaimer encouraging local label compliance before spraying concentrated chemicals.
+    </p>
+
+    <div class="section-heading">4.9 Role of AI in the Project</div>
+    <p>
+      AI performs visual sensory classification (species and pathology identification from pixels), while conventional programming handles authentication, rate limiting, knowledge base matching, and database persistence.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 16</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 17: CHAPTER 5 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 5: SYSTEM ANALYSIS AND DESIGN</div>
+    
+    <div class="section-heading">5.1 System Architecture Diagram</div>
+    <p style="font-size: 9pt; font-family: monospace; white-space: pre; line-height: 1.2; text-indent: 0; background: #f8f8f8; padding: 6px; border: 1px solid #ccc;">
+[Client: React 18 + Vite] ──► [REST API: Express + JWT] ──► [Plant.id AI API]
+                                     │
+                                     ▼
+                        [Database: MongoDB (Port 27017)]
+                        (Users · Diseases · Predictions)
+    </p>
+
+    <div class="section-heading">5.2 Use Case Diagram &amp; 5.3 Data Flow Diagram (DFD)</div>
+    <p>
+      <strong>Actors:</strong> Farmer/User and System Administrator.<br>
+      <strong>DFD Level 0:</strong> User uploads leaf image ➔ System queries AI API and MongoDB ➔ System returns diagnosis &amp; remedies.<br>
+      <strong>DFD Level 1:</strong> 1.0 Auth ➔ 2.0 Upload &amp; Magic-Byte Check ➔ 3.0 AI Inference ➔ 4.0 Disease Matcher ➔ 5.0 History Archive.
+    </p>
+
+    <div class="section-heading">5.4 Flowchart</div>
+    <p>
+      Upload Image ➔ Client Validation ➔ Server RAM Buffer ➔ Magic Bytes Valid? ➔ AI Call ➔ Is Plant? ➔ Resolve Top-1 Match in MongoDB ➔ Persist Prediction ➔ Display Diagnosis &amp; Remedy Cards.
+    </p>
+
+    <div class="section-heading">5.5 Database Design (Collections)</div>
+    <p>
+      The MongoDB database (<code>plant_disease</code>) contains 3 primary collections:
+      (1) <code>users</code>: Manages credentials, roles, and profiles.
+      (2) <code>diseases</code>: Stores 31+ curated disease records with symptoms, causes, organic remedies, and chemical sprays.
+      (3) <code>predictions</code>: Logs every historical scan linking user ID, image URL, confidence %, and soft references to disease records.
+    </p>
+
+    <div class="section-heading">5.6 Input and Output Design &amp; 5.7 Security Design</div>
+    <p>
+      Input provides drag-and-drop file selection with live preview. Output displays confidence meters, disease severity badges, and structured remedy bullet points. Security enforces 12-round Bcrypt password hashing, stateless JWT tokens, and CORS filtering.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 17</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 18: CHAPTER 6 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 6: HARDWARE AND SOFTWARE REQUIREMENTS</div>
+    
+    <div class="section-heading">6.1 Hardware Requirements</div>
+    <p style="font-weight: bold; margin-bottom: 2px;">Table 6.1: Hardware Requirements</p>
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Minimum Requirement</th><th>Actual Configuration</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Processor</strong></td><td>Intel Core i3 (2.0 GHz)</td><td>Intel Core i5 / AMD Ryzen 5</td></tr>
+        <tr><td><strong>RAM</strong></td><td>4 GB DDR4</td><td>8 GB / 16 GB DDR4</td></tr>
+        <tr><td><strong>Storage</strong></td><td>20 GB free disk space</td><td>512 GB NVMe SSD</td></tr>
+        <tr><td><strong>Display</strong></td><td>1366 × 768 resolution</td><td>1920 × 1080 Full HD IPS</td></tr>
+        <tr><td><strong>Internet</strong></td><td>1 Mbps broadband</td><td>High-Speed Fiber (50 Mbps+)</td></tr>
+        <tr><td><strong>GPU</strong></td><td>Not required (cloud inference)</td><td>Intel Iris Xe / Integrated</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-heading">6.2 Software Requirements</div>
+    <p style="font-weight: bold; margin-bottom: 2px;">Table 6.2: Software Requirements</p>
+    <table>
+      <thead>
+        <tr><th>Software Component</th><th>Purpose</th><th>Version Used</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Operating System</strong></td><td>Execution platform</td><td>Windows 11 / Linux Ubuntu 22.04</td></tr>
+        <tr><td><strong>Programming Language</strong></td><td>Full-stack application code</td><td>JavaScript (ES6+ / Node.js)</td></tr>
+        <tr><td><strong>IDE / Code Editor</strong></td><td>Writing and debugging code</td><td>Visual Studio Code (v1.94+)</td></tr>
+        <tr><td><strong>Front-End Technology</strong></td><td>User interface library &amp; bundler</td><td>React.js (v18.3.1), Vite (v6.0.7)</td></tr>
+        <tr><td><strong>Back-End Framework</strong></td><td>Server-side RESTful API</td><td>Express.js (v4.19.2)</td></tr>
+        <tr><td><strong>Database</strong></td><td>NoSQL document storage &amp; ODM</td><td>MongoDB (v8.3), Mongoose (v8.6.0)</td></tr>
+        <tr><td><strong>AI Model / API</strong></td><td>Foliar computer vision</td><td>Plant.id API v3</td></tr>
+        <tr><td><strong>Web Browser</strong></td><td>Testing and client access</td><td>Google Chrome / Microsoft Edge</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-heading">6.3 Development Environment &amp; 6.4 AI Service Requirements</div>
+    <p>
+      Development uses an npm monorepo with isolated <code>backend/</code> and <code>frontend/</code> setups. The Plant.id API requires an HTTPS connection, API Key authentication, and standard 45-second timeout allowances.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 18</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 19: CHAPTER 7 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 7: IMPLEMENTATION</div>
+    
+    <div class="section-heading">7.1 Introduction &amp; 7.2 Project Structure</div>
+    <p>
+      The implementation translates architectural designs into a working software application structured cleanly into <code>frontend/</code> (React components, hooks, services) and <code>backend/</code> (controllers, middleware, models, services).
+    </p>
+
+    <div class="section-heading">7.3 Implementation of Modules</div>
+    <ul>
+      <li><strong>Authentication:</strong> <code>authController.js</code> issues JWT tokens; <code>authMiddleware.js</code> verifies incoming Bearer tokens.</li>
+      <li><strong>Upload &amp; Validation:</strong> <code>uploadMiddleware.js</code> parses multipart requests into RAM and checks JPEG (<code>FF D8 FF</code>) / PNG (<code>89 50 4E 47</code>) magic bytes.</li>
+      <li><strong>AI Integration:</strong> <code>plantIdService.js</code> encodes image buffers to Base64 and dispatches HTTPS identification requests.</li>
+      <li><strong>Disease Matcher:</strong> <code>diseaseMatchService.js</code> performs case-insensitive taxonomic lookups in MongoDB.</li>
+    </ul>
+
+    <div class="section-heading">7.4 AI Model Integration &amp; 7.5 API Implementation</div>
+    <p>
+      The integration connects directly to the Plant.id v3 endpoint via Axios, passing Base64 image payloads and setting <code>health: 'all'</code>. The returned JSON is mapped into internal objects containing crop species, disease name, and confidence percentages.
+    </p>
+
+    <div class="section-heading">7.6 Database Implementation &amp; 7.7 UI Implementation</div>
+    <p>
+      Mongoose models (<code>User</code>, <code>Disease</code>, <code>Prediction</code>) enforce schema constraints. The React UI uses Tailwind CSS, Lucide icons, and Chart.js for real-time history visualizations.
+    </p>
+
+    <div class="section-heading">7.8 Error Handling, 7.9 Deployment &amp; 7.10 Repository</div>
+    <p>
+      Errors are caught via centralized <code>errorMiddleware.js</code>. Local deployment requires starting MongoDB, running <code>npm run dev</code> in <code>backend/</code>, and running <code>npm run dev</code> in <code>frontend/</code>. Source code is tracked in a clean Git repository with credentials isolated in <code>.env</code> files.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 19</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 20: CHAPTER 8 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 8: TESTING AND RESULTS</div>
+    
+    <div class="section-heading">8.1 Introduction &amp; 8.2 Testing Methodology</div>
+    <p>
+      Testing validates that the application meets all functional specifications, enforces security boundaries, and handles edge cases without runtime failures. Unit, integration, and security tests were automated using Node.js assertions.
+    </p>
+
+    <div class="section-heading">8.3 Test Cases</div>
+    <p style="font-weight: bold; margin-bottom: 2px;">Table 8.1: Test Cases and Execution Status</p>
+    <table>
+      <thead>
+        <tr><th>Test ID</th><th>Scenario</th><th>Input</th><th>Expected Output</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>TC01</td><td>Valid Leaf Upload</td><td>JPEG leaf photo</td><td>201 Created &amp; Diagnosis</td><td>Pass</td></tr>
+        <tr><td>TC02</td><td>Empty Upload</td><td>Blank request</td><td>400 Validation Error</td><td>Pass</td></tr>
+        <tr><td>TC03</td><td>Fake Image</td><td>Text renamed to .jpg</td><td>400 Magic-byte rejection</td><td>Pass</td></tr>
+        <tr><td>TC04</td><td>AI Outage</td><td>Simulated timeout</td><td>503 Friendly fallback</td><td>Pass</td></tr>
+        <tr><td>TC05</td><td>Non-Plant Photo</td><td>Car/Face photo</td><td>400 Ask for clear leaf</td><td>Pass</td></tr>
+        <tr><td>TC06</td><td>Registration</td><td>Valid user info</td><td>201 User created &amp; hashed</td><td>Pass</td></tr>
+        <tr><td>TC07</td><td>Duplicate Email</td><td>Existing email</td><td>409 Conflict rejected</td><td>Pass</td></tr>
+        <tr><td>TC08</td><td>Unauthorized Call</td><td>No JWT token</td><td>401 Unauthorized blocked</td><td>Pass</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-heading">8.4 AI Output Evaluation &amp; 8.5 Results and Observations</div>
+    <p>
+      The vision model consistently isolated foliar chlorosis and necrotic lesions, returning average confidence ratings between 74% and 96% on clear leaf images. The automated test suite executed 69 comprehensive tests with **69 Passed and 0 Failed**.
+    </p>
+
+    <div class="section-heading">8.6 Performance Analysis &amp; 8.7 Working Screenshots</div>
+    <p>
+      Frontend load time averaged ~500 ms; end-to-end AI diagnosis completed in 1.8 to 3.2 seconds. Database queries completed in under 15 ms. Labelled screenshots confirm full operational readiness.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 20</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 21: CHAPTER 9 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 9: SCOPE, LIMITATIONS AND FUTURE ENHANCEMENTS</div>
+    
+    <div class="section-heading">9.1 Scope of the Project</div>
+    <p>
+      The platform currently diagnoses 31+ disease and nutritional conditions across 7 economically vital crops (Tomato, Potato, Apple, Grape, Corn, Pepper, Strawberry), providing comprehensive organic and chemical remedies.
+    </p>
+
+    <div class="section-heading">9.2 Limitations of the Project</div>
+    <ul>
+      <li><strong>Internet Requirement:</strong> Cloud computer vision inference requires active network access.</li>
+      <li><strong>Image Quality Sensitivity:</strong> Severe blur or heavy shadows can lower classification confidence.</li>
+      <li><strong>API Quota Limits:</strong> Free third-party cloud tiers impose monthly request caps.</li>
+    </ul>
+
+    <div class="section-heading">9.3 Future Enhancements</div>
+    <ul>
+      <li><strong>Multilingual Regional Advisory:</strong> Adding Marathi and Hindi language support for rural farming communities.</li>
+      <li><strong>Voice-Guided Interface:</strong> Enabling speech-to-text input and audio remedy readouts for non-literate farmers.</li>
+      <li><strong>Offline Edge Inference:</strong> Developing on-device TensorFlow Lite models for zero-connectivity operation.</li>
+      <li><strong>IoT Sensor Integration:</strong> Pairing leaf image diagnosis with soil moisture and weather station telemetry.</li>
+    </ul>
+
+    <div class="section-heading">9.4 Social and Practical Applications</div>
+    <p>
+      Provides smallholder farmers with immediate, 24/7 expert agricultural advice, preventing catastrophic harvest losses, cutting wasteful chemical expenditures, and encouraging eco-friendly farming practices.
+    </p>
+
+    <div class="section-heading">9.5 Sustainability and Maintainability</div>
+    <p>
+      Modular service-oriented architecture ensures that new crops, diseases, and remedies can be added dynamically through the web-based Admin Portal without modifying application source code or restarting servers.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 21</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 22: CHAPTER 10 ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">CHAPTER 10: CONCLUSION</div>
+    
+    <div class="section-heading">10.1 Conclusion</div>
+    <p>
+      The <strong>Plant Disease Detection &amp; Remedy Recommendation System</strong> demonstrates how modern Artificial Intelligence and full-stack web engineering can effectively solve critical agricultural challenges. By uniting automated computer vision disease identification with actionable dual-track remedies, the system eliminates delays and empowers farmers with timely, practical agronomic advice.
+    </p>
+
+    <div class="section-heading">10.2 Learning Outcomes</div>
+    <ul>
+      <li><strong>Computer Vision Integration:</strong> Gained hands-on experience integrating deep-learning vision APIs and Base64 stream processing.</li>
+      <li><strong>Full-Stack Architecture:</strong> Mastered modern Single Page Application engineering using React 18, Vite, and Tailwind CSS.</li>
+      <li><strong>Backend &amp; API Security:</strong> Engineered secure RESTful APIs with stateless JWT authentication, rate limiting, and magic-byte file validation.</li>
+      <li><strong>Database Modeling:</strong> Developed flexible NoSQL schemas and indexes in MongoDB for complex nested agricultural remedy plans.</li>
+      <li><strong>Quality Assurance:</strong> Created comprehensive automated test suites achieving 100% test pass rates across 69 assertions.</li>
+    </ul>
+
+    <div class="section-heading">10.3 Final Remarks</div>
+    <p>
+      The application bridges the gap between agricultural technology and on-the-ground farming realities. With planned extensions toward regional language voice assistance and offline edge inference, this project represents a meaningful step toward intelligent, sustainable digital agriculture.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 22</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 23: BIBLIOGRAPHY ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">BIBLIOGRAPHY / REFERENCES</div>
+    
+    <div style="margin-top: 15px; font-size: 10pt; line-height: 1.6;">
+      <p style="text-indent: -20px; padding-left: 20px;">
+        [1] Mohanty, S. P., Hughes, D. P., &amp; Salathé, M. (2016). “Using deep learning for image-based plant disease detection.” <em>Frontiers in Plant Science</em>, vol. 7, p. 1419. https://doi.org/10.3389/fpls.2016.01419
+      </p>
+
+      <p style="text-indent: -20px; padding-left: 20px;">
+        [2] Hughes, D. P., &amp; Salathé, M. (2015). “An open access repository of images on plant health to enable the development of mobile disease diagnostics.” <em>arXiv preprint arXiv:1511.08060</em> (PlantVillage Dataset).
+      </p>
+
+      <p style="text-indent: -20px; padding-left: 20px;">
+        [3] Plant.id API Documentation (2024). “Machine Learning Plant Identification &amp; Foliar Health Assessment API v3.” <em>FlowerChecker s.r.o.</em>, https://plant.id/ (Accessed: October 2026).
+      </p>
+
+      <p style="text-indent: -20px; padding-left: 20px;">
+        [4] MongoDB, Inc. (2024). “MongoDB Manual &amp; Mongoose ODM Documentation (Version 8).” https://www.mongodb.com/docs/
+      </p>
+
+      <p style="text-indent: -20px; padding-left: 20px;">
+        [5] Meta Open Source (2024). “React 18: The Library for Web and Native User Interfaces.” https://react.dev/
+      </p>
+
+      <p style="text-indent: -20px; padding-left: 20px;">
+        [6] OpenJS Foundation (2024). “Express.js: Fast, unopinionated, minimalist web framework for Node.js.” https://expressjs.com/
+      </p>
+
+      <p style="text-indent: -20px; padding-left: 20px;">
+        [7] Indian Council of Agricultural Research (ICAR) (2023). “Integrated Pest and Disease Management Guidelines for Cash and Food Crops.” Ministry of Agriculture &amp; Farmers Welfare, Government of India. https://icar.org.in/
+      </p>
+
+      <p style="text-indent: -20px; padding-left: 20px;">
+        [8] Agrios, G. N. (2005). <em>Plant Pathology (5th Edition)</em>. Academic Press, Elsevier, Burlington, MA.
+      </p>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 23</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 24: APPENDICES ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="header-bar">DKTE SOCIETY’S TEXTILE & ENGINEERING INSTITUTE, ICHALKARANJI</div>
+  <div class="page-body">
+    <div class="chapter-heading">APPENDICES</div>
+    
+    <div class="section-heading">Appendix A: Source Code Highlights</div>
+    <p>
+      Key files: <code>backend/services/plantIdService.js</code> (Base64 AI streaming), <code>backend/services/diseaseMatchService.js</code> (taxonomic matching), <code>backend/middleware/uploadMiddleware.js</code> (magic-byte validation), and <code>frontend/src/components/ImageUploader.jsx</code> (drag-and-drop reactive preview).
+    </p>
+
+    <div class="section-heading">Appendix B: API Payload Sample</div>
+    <p style="text-indent: 0;">
+      <code>POST https://api.plant.id/v3/identification</code><br>
+      Headers: <code>Api-Key: &lt;SECRET&gt;, Content-Type: application/json</code><br>
+      Body: <code>{ "images": ["/9j/4AAQSk..."], "health": "all", "classification_level": "species" }</code>
+    </p>
+
+    <div class="section-heading">Appendix C: Sample Input and Output</div>
+    <p>
+      <strong>Input:</strong> Tomato leaf photo with concentric brown rings. <strong>AI Diagnosis:</strong> Species: Tomato, Disease: Early Blight (91.4% confidence). <strong>Output:</strong> Organic: Neem oil 0.5% + Trichoderma; Chemical: Mancozeb 75% WP (2.5g/L).
+    </p>
+
+    <div class="section-heading">Appendix D: User Manual &amp; Appendix E: Installation Guide</div>
+    <p>
+      (1) Start MongoDB daemon. (2) In <code>backend/</code> run <code>npm install &amp;&amp; npm run seed &amp;&amp; npm run dev</code>. (3) In <code>frontend/</code> run <code>npm install &amp;&amp; npm run dev</code>. (4) Open <code>http://localhost:5173</code> in browser.
+    </p>
+
+    <div class="section-heading">Appendix F: Test Results Summary</div>
+    <p>
+      Automated suite executed 69 assertions across authentication, disease CRUD, rate limits, and prediction endpoints. <strong>Result: 69 Passed, 0 Failed.</strong>
+    </p>
+
+    <div class="section-heading">Appendix G: Dataset Summary &amp; Appendix H: Screenshots Map</div>
+    <p>
+      Catalogue contains 31 detailed agronomic records across 7 crops. Application screenshots include Homepage (Fig. 7.1), Upload Dropzone (Fig. 7.2), and Diagnosis &amp; Remedy Screen (Fig. 7.3).
+    </p>
+
+    <div class="section-heading">Appendix I: AI Usage Disclosure</div>
+    <p>
+      Generative and Computer Vision AI tools (Plant.id API v3 and development code assistants) were utilized during development. All outputs, algorithms, and documentation were reviewed, tested, and verified by the student in accordance with DKTE academic integrity standards.
+    </p>
+  </div>
+  <div class="footer-bar">
+    <span>MCA-II Semester-III</span>
+    <span>Plant Disease Detection &amp; Remedy Recommendation System</span>
+    <span>Page 24</span>
+  </div>
+</div>
+
+
+</div>
+</body>
+</html>

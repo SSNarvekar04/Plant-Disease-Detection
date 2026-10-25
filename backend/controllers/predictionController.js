@@ -2,10 +2,10 @@
  * Prediction controller.
  *
  * Flow for POST /api/predictions:
- *   1. validate + buffer the uploaded image (multer, see uploadMiddleware)
- *   2. store the image on Cloudinary (or local disk)
- *   3. send the buffer to the Python ML service
- *   4. translate the model's class into a Disease knowledge-base record
+ *   1. validate the uploaded image (multer, see uploadMiddleware)
+ *   2. send the image to the Plant.id API and get the diagnosis
+ *   3. match the returned disease name against the MongoDB knowledge base
+ *   4. store the image on Cloudinary (or local disk)
  *   5. persist the result to the user's history
  *   6. return everything the result page needs in a single response
  *
@@ -23,7 +23,7 @@ const {
   withId,
 } = require('../utils/helpers');
 const { isValidObjectId } = require('../utils/validators');
-const mlService = require('../services/mlService');
+const plantIdService = require('../services/plantIdService');
 const cloudinaryService = require('../services/cloudinaryService');
 const {
   findBestDiseaseMatch,
@@ -35,14 +35,14 @@ const {
 const LOW_CONFIDENCE_THRESHOLD = 70;
 
 /**
- * Maps a raw ML result onto the disease document / prediction status.
+ * Maps a raw Plant.id result onto the disease document / prediction status.
  *
- * @param {object} mlResult   Output of mlService.predictDisease
+ * @param {object} aiResult   Output of plantIdService.analyseImage
  * @param {import('mongoose').Document|null} disease
  */
-function buildOutcome(mlResult, disease) {
-  const isHealthy = isHealthyPrediction(mlResult);
-  const isLowConfidence = mlResult.confidence < LOW_CONFIDENCE_THRESHOLD;
+function buildOutcome(aiResult, disease) {
+  const isHealthy = isHealthyPrediction(aiResult);
+  const isLowConfidence = aiResult.confidence < LOW_CONFIDENCE_THRESHOLD;
 
   let predictionStatus;
   if (isHealthy) {
@@ -55,8 +55,11 @@ function buildOutcome(mlResult, disease) {
 
   return {
     predictionStatus,
-    diseaseName: disease?.diseaseName || mlResult.disease,
-    plantName: disease?.plantName || mlResult.plant,
+    // The catalogue record is only ever matched from the top-1 suggestion, so
+    // its name and `aiResult.confidence` describe the same answer. When there
+    // is no record we keep Plant.id's own wording rather than invent one.
+    diseaseName: disease?.diseaseName || aiResult.disease,
+    plantName: disease?.plantName || aiResult.plant,
     // Explanatory note rendered at the top of the result card.
     message: isHealthy
       ? 'No disease was detected on this leaf. Keep following the prevention checklist below.'
@@ -72,19 +75,22 @@ function buildOutcome(mlResult, disease) {
  * { prediction fields, uploaded image, disease document }
  */
 async function analyseImage(file, req) {
-  // 1. Store the image first, so a stored record always has an image URL.
+  // 1. Ask Plant.id first: if the AI provider is down there is no point in
+  //    leaving an orphaned image behind on disk.
+  const aiResult = await plantIdService.analyseImage(file);
+
+  // 2. Store the image, so a stored record always has an image URL.
   const stored = await cloudinaryService.uploadImage(file);
   const imageUrl = stored.provider === 'local' ? `${req.protocol}://${req.get('host')}${stored.url}` : stored.url;
 
-  // 2. Ask the AI model.
-  const mlResult = await mlService.predictDisease(file);
-
-  // 3. Resolve the matching disease record from the knowledge base.
-  const disease = await findBestDiseaseMatch(mlResult);
-  const outcome = buildOutcome(mlResult, disease);
+  // 3. Resolve the matching disease record from the knowledge base. Only the
+  //    top-1 suggestion may pick it, because the saved confidence belongs to
+  //    that suggestion.
+  const disease = await findBestDiseaseMatch(aiResult);
+  const outcome = buildOutcome(aiResult, disease);
 
   return {
-    mlResult,
+    aiResult,
     disease,
     imageUrl,
     publicId: stored.publicId,
@@ -106,14 +112,16 @@ const createPrediction = asyncHandler(async (req, res) => {
     publicId: outcome.publicId,
     plantName: outcome.plantName,
     diseaseName: outcome.diseaseName,
-    confidence: outcome.mlResult.confidence,
-    predictionSource: outcome.mlResult.predictionSource,
+    confidence: outcome.aiResult.confidence,
+    predictionSource: outcome.aiResult.predictionSource,
     predictionStatus: outcome.predictionStatus,
     disease: outcome.disease ? outcome.disease._id : null,
     rawResult: {
-      classIndex: outcome.mlResult.classIndex,
-      modelName: outcome.mlResult.modelName,
-      topPredictions: outcome.mlResult.topPredictions,
+      provider: 'plant.id',
+      modelVersion: outcome.aiResult.modelVersion,
+      plantSpecies: outcome.aiResult.plantSpecies,
+      isHealthy: outcome.aiResult.isHealthy,
+      topPredictions: outcome.aiResult.topPredictions,
       storageProvider: outcome.storageProvider,
     },
     notes: outcome.message || '',
@@ -141,15 +149,15 @@ const predictOnly = asyncHandler(async (req, res) => {
       prediction: {
         plantName: outcome.plantName,
         diseaseName: outcome.diseaseName,
-        confidence: outcome.mlResult.confidence,
-        predictionSource: outcome.mlResult.predictionSource,
+        confidence: outcome.aiResult.confidence,
+        predictionSource: outcome.aiResult.predictionSource,
         predictionStatus: outcome.predictionStatus,
         imageUrl: outcome.imageUrl,
         notes: outcome.message || '',
       },
       disease: outcome.disease ? outcome.disease.toJSON() : null,
       remedyNotice: outcome.remedyNotice,
-      topPredictions: outcome.mlResult.topPredictions,
+      topPredictions: outcome.aiResult.topPredictions,
     },
   });
 });
@@ -318,7 +326,7 @@ function buildResultPayload(prediction, disease, note) {
         ? 'Prediction confidence is low. Please upload a clearer image in good lighting and avoid shadows.'
         : null,
     disclaimer:
-      'This result is generated by a machine learning model and is an aid for decision making only. ' +
+      'This result was generated by the Plant.id API and is an aid for decision making only. ' +
       'Please confirm with a local agriculture expert before applying any treatment.',
   };
 }

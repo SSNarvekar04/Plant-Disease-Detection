@@ -2,8 +2,6 @@
  * Shared helpers: async route wrapping, API errors and pagination metadata.
  */
 
-const config = require('../config/env');
-
 /**
  * Wraps an async controller so rejected promises reach the Express error
  * handler instead of hanging the request. Always use it for async handlers.
@@ -115,9 +113,6 @@ function withId(doc) {
   return { ...rest, id: String(_id) };
 }
 
-/** True when the app is allowed to use the mock classifier fallback. */
-const mockEnabled = () => config.ml.allowMock;
-
 module.exports = {
   asyncHandler,
   ApiError,
@@ -126,5 +121,4 @@ module.exports = {
   buildPaginationMeta,
   buildLocalUploadUrl,
   withId,
-  mockEnabled,
 };

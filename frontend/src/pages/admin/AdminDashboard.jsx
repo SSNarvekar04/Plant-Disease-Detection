@@ -22,9 +22,8 @@ import { formatPercent } from '../../utils/formatters';
  * Admin dashboard (`/admin`).
  *
  * `/admin/statistics` carries every counter and chart, `/admin/ml-health`
- * reports whether real inference is available. Those two together let an admin
- * tell "the system is working" apart from "the system is working but returning
- * demo results", which matters for a demo of an ML project.
+ * reports whether the Plant.id API is configured and reachable, so an admin
+ * can tell a healthy system from one where predictions are failing.
  */
 export default function AdminDashboard() {
   const stats = useAsyncData(() => adminService.statistics(), []);
@@ -240,33 +239,37 @@ export default function AdminDashboard() {
 }
 
 /**
- * AI service status.
+ * AI provider status.
  *
- * Deliberately distinguishes "reachable" from "a real model is loaded": a
- * reachable service with no model file is serving demo results, and the admin
- * should see that rather than assume the model is live.
+ * Distinguishes three states an admin actually needs to tell apart: the key is
+ * missing, the key is set but Plant.id cannot be reached, and everything is
+ * wired up so predictions are live.
  */
 function MlStatusCard({ health, loading, error }) {
+  const keyConfigured = Boolean(health?.details?.apiKeyConfigured);
   const reachable = Boolean(health?.reachable);
-  const modelLoaded = Boolean(health?.details?.model_loaded ?? health?.details?.model_available);
-  const classCount = health?.details?.num_classes;
 
   const state = loading
     ? { tone: 'bg-leaf-100 text-leaf-700 dark:bg-leaf-800 dark:text-leaf-200', label: 'Checking...' }
-    : error || !reachable
+    : error
       ? {
           tone: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
-          label: 'ML service unreachable',
+          label: 'Plant.id status unavailable',
         }
-      : modelLoaded
+      : !keyConfigured
         ? {
-            tone: 'bg-leaf-100 text-leaf-800 dark:bg-leaf-900 dark:text-leaf-200',
-            label: 'Model loaded — real inference',
+            tone: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
+            label: 'PLANT_ID_API_KEY not set',
           }
-        : {
-            tone: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-100',
-            label: 'Service up — demo (mock) results',
-          };
+        : !reachable
+          ? {
+              tone: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
+              label: 'Plant.id API unreachable',
+            }
+          : {
+              tone: 'bg-leaf-100 text-leaf-800 dark:bg-leaf-900 dark:text-leaf-200',
+              label: 'Plant.id connected — predictions live',
+            };
 
   return (
     <div className={`rounded-2xl px-4 py-3 ${state.tone}`}>
@@ -276,8 +279,9 @@ function MlStatusCard({ health, loading, error }) {
       </div>
       <p className="mt-1 text-xs opacity-80">
         {health?.latencyMs !== undefined ? `${health.latencyMs} ms round trip` : 'AI prediction service'}
-        {classCount ? ` • ${classCount} classes` : ''}
+        {health?.details?.endpoint ? ` • ${health.details.endpoint}` : ''}
       </p>
+      {health?.note ? <p className="mt-1 text-xs opacity-70">{health.note}</p> : null}
     </div>
   );
 }

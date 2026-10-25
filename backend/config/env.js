@@ -53,10 +53,14 @@ const config = {
   // Max upload size in bytes (default 5 MB).
   maxFileSizeBytes: Number(process.env.MAX_FILE_SIZE_MB || 5) * 1024 * 1024,
 
-  ml: {
-    serviceUrl: (process.env.ML_SERVICE_URL || 'http://127.0.0.1:8000').replace(/\/+$/, ''),
-    timeoutMs: Number(process.env.ML_TIMEOUT_MS) || 45000,
-    allowMock: (process.env.ALLOW_MOCK_PREDICTION || 'true').toLowerCase() === 'true',
+  plantId: {
+    /** Secret AI provider key. Server side only -- never sent to the browser. */
+    apiKey: process.env.PLANT_ID_API_KEY || '',
+    baseUrl: (process.env.PLANT_ID_API_BASE_URL || 'https://api.plant.id/v3').replace(/\/+$/, ''),
+    timeoutMs: Number(process.env.PLANT_ID_TIMEOUT_MS) || 45000,
+    get enabled() {
+      return Boolean(this.apiKey);
+    },
   },
 };
 

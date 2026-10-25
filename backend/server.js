@@ -46,7 +46,10 @@ app.use(
     origin(origin, callback) {
       // Allow same-origin / curl requests (no Origin header).
       if (!origin) return callback(null, true);
-      if (config.clientUrls.includes(origin)) return callback(null, true);
+      // In development, allow any local/LAN origin
+      if (!config.isProduction || config.clientUrls.includes(origin)) {
+        return callback(null, true);
+      }
       return callback(new Error(`Origin ${origin} is not allowed by CORS`));
     },
     credentials: true,
@@ -87,8 +90,9 @@ app.get('/api/health', async (_req, res) => {
       environment: config.env,
       database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
       storage: cloudinaryService.getStorageStatus(),
-      mlServiceUrl: config.ml.serviceUrl,
-      mockPredictionEnabled: config.ml.allowMock,
+      predictionProvider: 'plant.id',
+      predictionServiceUrl: config.plantId.baseUrl,
+      predictionServiceConfigured: config.plantId.enabled,
       uptimeSeconds: Math.round(process.uptime()),
       timestamp: new Date().toISOString(),
     },
@@ -130,8 +134,8 @@ async function start() {
       console.log(`      API         : http://localhost:${config.port}`);
       console.log(`      Health      : http://localhost:${config.port}/api/health`);
       console.log(`      Image store : ${storage.provider}`);
-      console.log(`      ML service  : ${config.ml.serviceUrl}`);
-      console.log(`      Mock mode   : ${config.ml.allowMock ? 'enabled' : 'disabled'}`);
+      console.log(`      AI provider : Plant.id (${config.plantId.baseUrl})`);
+      console.log(`      API key     : ${config.plantId.enabled ? 'configured' : 'MISSING -- set PLANT_ID_API_KEY'}`);
       console.log('');
     });
 

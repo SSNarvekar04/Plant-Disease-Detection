@@ -1,17 +1,27 @@
 /**
  * End-to-end API smoke test.
  *
- * Exercises every documented endpoint against a running server + MongoDB.
- *   node tests/api.test.js            (expects the API on http://localhost:5000)
- *   API_URL=http://localhost:5000 node tests/api.test.js
+ * Self-contained by default: it starts the Express app in-process and points
+ * the Plant.id client at a local stub, so `npm test` needs no running server,
+ * no internet connection and no API credits.
+ *
+ * The stub returns a realistic Plant.id payload, which means the real
+ * request building, response parsing, species -> crop mapping and disease
+ * matching code all run for real. Nothing inside the app is mocked out.
+ *
+ *   npm test
+ *
+ * Point it at an externally running server instead (real Plant.id calls):
+ *   API_URL=http://localhost:5000 npm test
  *
  * Exits with code 1 when any check fails, so it can be used in CI.
  */
 
 const assert = require('assert');
+const http = require('http');
 const path = require('path');
 
-const API_URL = (process.env.API_URL || 'http://localhost:5000').replace(/\/+$/, '');
+let API_URL = (process.env.API_URL || '').replace(/\/+$/, '');
 
 let passed = 0;
 let failed = 0;
@@ -67,6 +77,121 @@ const TINY_PNG = Buffer.from(
 );
 
 const randomEmail = `tester${Date.now()}@example.com`;
+
+/* ------------------------------------------------------------------ stub */
+
+/** The disease list the stub answers with; a test can swap it temporarily. */
+const DEFAULT_STUB_DISEASES = [
+  { id: 'd1', name: 'Early blight', probability: 0.87 },
+  { id: 'd2', name: 'Late blight', probability: 0.06 },
+  { id: 'd3', name: 'Septoria leaf spot', probability: 0.03 },
+];
+
+let stubDiseases = DEFAULT_STUB_DISEASES;
+
+/**
+ * A local stand-in for `POST /v3/identification`.
+ *
+ * It answers with the exact JSON shape Plant.id returns for a tomato leaf with
+ * early blight, so the code under test does the same work it would do against
+ * the real provider.
+ */
+function startPlantIdStub() {
+  return new Promise((resolve) => {
+    const server = http.createServer((req, res) => {
+      if (req.method === 'GET') {
+        // Used by checkHealth(): any answer proves the endpoint is alive.
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end('{"detail":"Not found"}');
+        return;
+      }
+
+      let body = '';
+      req.on('data', (chunk) => {
+        body += chunk;
+      });
+      req.on('end', () => {
+        let payload;
+        try {
+          payload = JSON.parse(body);
+        } catch {
+          payload = {};
+        }
+
+        if (!Array.isArray(payload.images) || payload.images.length === 0) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end('{"detail":"No images were provided"}');
+          return;
+        }
+
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(
+          JSON.stringify({
+            access_token: 'stub-token',
+            model_version: 'plant_id:stub',
+            input: { health: payload.health, images: ['https://plant.id/media/imgs/stub.jpg'] },
+            result: {
+              is_plant: { probability: 0.99, threshold: 0.5, binary: true },
+              is_healthy: { probability: 0.08, threshold: 0.5, binary: false },
+              classification: {
+                suggestions: [
+                  { id: 'plant-1', name: 'Solanum lycopersicum', probability: 0.96 },
+                  { id: 'plant-2', name: 'Solanum tuberosum', probability: 0.02 },
+                ],
+              },
+              disease: {
+                suggestions: stubDiseases,
+              },
+            },
+            status: 'COMPLETED',
+          })
+        );
+      });
+    });
+
+    server.listen(0, '127.0.0.1', () => resolve(server));
+  });
+}
+
+/**
+ * Starts the Plant.id stub and the Express app in-process.
+ * Skipped when API_URL is supplied, so the suite can also target a real server.
+ */
+async function boot() {
+  if (API_URL) {
+    console.log(`\nUsing an externally provided API: ${API_URL}`);
+    return;
+  }
+
+  const stub = await startPlantIdStub();
+
+  // config/env.js reads .env once, at require time, and does not overwrite
+  // values that already exist -- so these must be set before ../server loads.
+  process.env.PLANT_ID_API_BASE_URL = `http://127.0.0.1:${stub.address().port}`;
+  process.env.PLANT_ID_API_KEY = process.env.PLANT_ID_API_KEY || 'stub-key-for-tests';
+
+  const { app } = require('../server');
+  const { connectDB } = require('../config/db');
+
+  await connectDB();
+
+  const server = await new Promise((resolve, reject) => {
+    const instance = app.listen(0, '127.0.0.1', () => resolve(instance));
+    instance.on('error', reject);
+  });
+
+  API_URL = `http://127.0.0.1:${server.address().port}`;
+
+  // Best effort cleanup so the process never lingers on a port.
+  process.on('exit', () => {
+    try {
+      server.close();
+      stub.close();
+    } catch {
+      // Already closed.
+    }
+  });
+}
 
 async function run() {
   console.log(`\nTesting ${API_URL}\n${'='.repeat(60)}`);
@@ -469,7 +594,7 @@ async function run() {
     assert.ok(res.body.data.prediction.plantName);
     assert.ok(res.body.data.prediction.diseaseName);
     assert.ok(typeof res.body.data.prediction.confidence === 'number');
-    assert.ok(['ml', 'mock'].includes(res.body.data.prediction.predictionSource));
+    assert.strictEqual(res.body.data.prediction.predictionSource, 'plant.id');
     assert.ok(['detected', 'low_confidence', 'healthy'].includes(res.body.data.prediction.predictionStatus));
     assert.ok(res.body.data.disclaimer, 'a disclaimer must be shown');
     predictionId = res.body.data.prediction.id;
@@ -480,6 +605,33 @@ async function run() {
     assert.strictEqual(res.status, 200);
     assert.ok(res.body.data.disease, 'no disease record matched the prediction');
     assert.ok(res.body.data.disease.symptoms.length > 0);
+  });
+
+  await check('A lower-ranked suggestion never renames the result', async () => {
+    // Plant.id often answers with generic pathogens. "Bacteria" used to be a
+    // substring match for "Bacterial Spot", so the rank-2 name was saved with
+    // the rank-1 confidence -- a number nobody measured. Only top-1 may name
+    // the result, and an unmatched one must say so instead of guessing.
+    stubDiseases = [
+      { id: 'x1', name: 'Fungi', probability: 0.44 },
+      { id: 'x2', name: 'Bacteria', probability: 0.31 },
+    ];
+
+    try {
+      const form = new FormData();
+      form.append('image', new Blob([TINY_PNG], { type: 'image/png' }), 'leaf.png');
+      const res = await api('POST', '/api/predictions', { token: userToken, form });
+      assert.strictEqual(res.status, 201, JSON.stringify(res.body));
+
+      const { prediction, disease, remedyNotice } = res.body.data;
+      assert.strictEqual(prediction.diseaseName, 'Fungi', 'rank-2 must not rename the prediction');
+      assert.strictEqual(prediction.confidence, 44, 'confidence must stay the top-1 probability');
+      assert.strictEqual(prediction.topPredictions[0].disease, 'Fungi');
+      assert.strictEqual(disease, null, 'an unmatched suggestion must not borrow a record');
+      assert.ok(remedyNotice && remedyNotice.length > 10, 'the honest no-record notice is required');
+    } finally {
+      stubDiseases = DEFAULT_STUB_DISEASES;
+    }
   });
 
   await check('GET /api/predictions/my lists the history', async () => {
@@ -632,10 +784,11 @@ async function run() {
     assert.ok(res.body.data.every((p) => p.predictionStatus === 'detected'));
   });
 
-  await check('GET /api/admin/ml-health reports the ML service state', async () => {
+  await check('GET /api/admin/ml-health reports the Plant.id API state', async () => {
     const res = await api('GET', '/api/admin/ml-health', { token: adminToken });
     assert.strictEqual(res.status, 200);
     assert.strictEqual(typeof res.body.data.reachable, 'boolean');
+    assert.strictEqual(res.body.data.source, 'plant.id');
   });
 
   await check('DELETE /api/admin/predictions/:id removes a record', async () => {
@@ -672,8 +825,10 @@ async function run() {
   process.exit(failed ? 1 : 0);
 }
 
-run().catch((error) => {
-  console.error('\nTest runner crashed:', error);
-  console.error('\nIs the backend running and seeded?  npm run seed');
-  process.exit(1);
-});
+boot()
+  .then(() => run())
+  .catch((error) => {
+    console.error('\nTest runner crashed:', error);
+    console.error('\nCheck that MongoDB is running, then try:  npm run seed');
+    process.exit(1);
+  });

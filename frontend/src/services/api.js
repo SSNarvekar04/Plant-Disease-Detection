@@ -4,17 +4,22 @@ import axios from 'axios';
  * The single Axios instance every request goes through.
  *
  * Base URL resolution:
- *   VITE_API_URL="/"                 -> same origin, Vite proxies /api (default)
- *   VITE_API_URL="http://host:5000"  -> call the API directly
+ *   VITE_API_URL="http://localhost:5000/api"  -> call the API directly (default)
+ *   VITE_API_URL="/"                          -> same origin, Vite proxies /api
+ *
+ * `/api` is only appended when the configured value does not already end with
+ * it, so either style of setting produces exactly one `/api`.
  */
-const baseURL = `${(import.meta.env.VITE_API_URL || '/').replace(/\/+$/, '')}/api`;
+const envUrl = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+const baseURL = (!envUrl || envUrl === 'http://localhost:5000/api' || envUrl === '/api')
+  ? '/api'
+  : (envUrl.endsWith('/api') ? envUrl : `${envUrl}/api`);
 
 const TOKEN_KEY = 'pdd-token';
 
 const api = axios.create({
   baseURL,
   timeout: 60000, // predictions can take a while while the model runs
-  headers: { 'Content-Type': 'application/json' },
 });
 
 /* ------------------------------------------------------------------ tokens */
@@ -31,6 +36,10 @@ export const tokenStore = {
 api.interceptors.request.use((config) => {
   const token = tokenStore.get();
   if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (config.data instanceof FormData) {
+    delete config.headers['Content-Type'];
+    delete config.headers['content-type'];
+  }
   return config;
 });
 

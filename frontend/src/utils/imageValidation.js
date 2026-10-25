@@ -16,7 +16,8 @@ export function validateImageFile(file) {
   if (!file) return { valid: false, error: 'Please choose an image first.' };
 
   const extension = `.${String(file.name).split('.').pop()?.toLowerCase() ?? ''}`;
-  const typeOk = ACCEPTED_TYPES.includes(file.mimetype?.toLowerCase());
+  const mime = (file.type || file.mimetype || '').toLowerCase();
+  const typeOk = !mime || ACCEPTED_TYPES.includes(mime);
   const extensionOk = ACCEPTED_EXTENSIONS.includes(extension);
 
   if (!typeOk || !extensionOk) {

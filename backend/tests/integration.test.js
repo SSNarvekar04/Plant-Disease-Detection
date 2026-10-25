@@ -1,25 +1,32 @@
 /**
- * Integration test: React-facing full chain.
+ * Integration test: the real Plant.id chain.
  *
- * Verifies that a prediction actually travels
- *   frontend -> Node API -> Python ML service -> MongoDB
- * and that a real ML response is labelled as such (never mixed with the mock).
+ * Exercises exactly what a user does in the browser:
  *
- * Requires BOTH services to be running:
- *   node server.js          (backend, port 5000)
- *   python app.py           (ml-service, port 8000)
+ *   React -> Node API -> Plant.id API -> MongoDB -> result payload
+ *
+ * Unlike tests/api.test.js (which runs offline against a local stub), this
+ * test performs a PAID, live call to Plant.id. It therefore skips itself
+ * instead of failing when:
+ *   - the backend has no PLANT_ID_API_KEY configured, or
+ *   - no sample leaf image is available.
+ *
+ * Requires the backend to be running:
+ *   npm run dev
  *
  * Run with:
- *   node tests/integration.test.js
+ *   npm run test:integration
  *
- * Skips itself (exit 0) when the ML service is offline, because the backend is
- * designed to keep working through its mock fallback.
+ * Supply the image you want analysed:
+ *   TEST_IMAGE="C:\path\leaf.jpg" npm run test:integration
+ *   (without it, the first PNG/JPEG found in backend/uploads is used)
  */
 
 const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
 
 const API_URL = (process.env.API_URL || 'http://localhost:5000').replace(/\/+$/, '');
-const ML_URL = (process.env.ML_URL || 'http://127.0.0.1:8000').replace(/\/+$/, '');
 
 let passed = 0;
 let failed = 0;
@@ -51,61 +58,51 @@ async function api(method, endpoint, { token, body, form } = {}) {
   return { status: response.status, body: JSON.parse(text) };
 }
 
-/**
- * Valid 32x32 PNGs (green / red / blue).
- *
- * The ML service decodes and validates every upload, so these must be real,
- * uncorrupted PNGs -- a byte-flipped buffer is correctly rejected with a 400 and
- * would make the backend fall back to the mock classifier.
- */
-const TEST_IMAGES = [
-  'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAOUlEQVR4nO3RQREAQAjDwHK6kIjokxA+/LICykyons6ld7oeDyz4A2QiZCJkImQiZCJkImQiZKKQD99bAURM2IUtAAAAAElFTkSuQmCC',
-  'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAOklEQVR4nO3RQREAQAjDwHJq8K8CWSchfPhlBZSZUNOdS+90PR5Y8AfIRMhEyETIRMhEyETIRMhEIR/SYgFYNc9MqgAAAABJRU5ErkJggg==',
-  'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAO0lEQVR4nO3RQQ0AMAgEwaNqKqL+g6xKWD78dgQcyVL3dTad1fV4YMAfIBMhEyETIRMhEyETIRMhE4V8w4kBbOVMIncAAAAASUVORK5CYII=',
-];
-
-const makePng = (index = 0) => Buffer.from(TEST_IMAGES[index % TEST_IMAGES.length], 'base64');
-
-/**
- * Reads the ML service health payload.
- *
- * The result tells the test two things: whether the service is reachable at
- * all, and whether a trained model is actually loaded. The second one is needed
- * to assert the *correct* prediction source, because the service deliberately
- * answers with `source: "mock"` when no model file is present.
- */
-async function mlHealth() {
-  try {
-    const response = await fetch(`${ML_URL}/health`, { signal: AbortSignal.timeout(4000) });
-    if (!response.ok) return { up: false, modelAvailable: false };
-    const body = await response.json();
-    return { up: true, modelAvailable: Boolean(body?.model_available ?? body?.model_loaded) };
-  } catch {
-    return { up: false, modelAvailable: false };
+/** Finds a real photo to send to Plant.id, if one exists locally. */
+function findSampleImage() {
+  if (process.env.TEST_IMAGE && fs.existsSync(process.env.TEST_IMAGE)) {
+    return process.env.TEST_IMAGE;
   }
+
+  const uploadsDir = path.join(__dirname, '..', 'uploads');
+  if (!fs.existsSync(uploadsDir)) return null;
+
+  const file = fs
+    .readdirSync(uploadsDir)
+    .find((name) => /\.(png|jpe?g)$/i.test(name) && !name.startsWith('seed-'));
+
+  return file ? path.join(uploadsDir, file) : null;
+}
+
+function skip(reason) {
+  console.log(`\nIntegration test skipped\n  ${reason}\n`);
+  process.exit(0);
 }
 
 async function run() {
-  console.log(`\nIntegration test\n  API: ${API_URL}\n  ML : ${ML_URL}\n${'='.repeat(60)}`);
+  console.log(`\nPlant.id integration test\n  API: ${API_URL}\n${'='.repeat(60)}`);
 
-  const ml = await mlHealth();
-  if (!ml.up) {
-    console.log('\n  ML service is not running, so the full chain cannot be exercised.');
-    console.log('  Start it with:  cd ml-service && python app.py');
-    console.log('  (The backend mock-fallback path is covered by tests/api.test.js.)\n');
-    process.exit(0);
+  // --- preconditions -------------------------------------------------------
+  const health = await fetch(`${API_URL}/api/health`, { signal: AbortSignal.timeout(5000) })
+    .then((res) => res.json())
+    .catch(() => null);
+
+  if (!health) {
+    skip(`The backend is not running at ${API_URL}. Start it with:  npm run dev`);
+  }
+  if (!health.data.predictionServiceConfigured) {
+    skip('PLANT_ID_API_KEY is not set in backend/.env, so no live call can be made.');
   }
 
-  // With no trained model the service answers with its deterministic mock
-  // classifier, and the backend must relay that honestly instead of claiming
-  // the result came from the AI model.
-  const expectedSource = ml.modelAvailable ? 'ml' : 'mock';
-  console.log(`  ML model available: ${ml.modelAvailable} -> expecting source "${expectedSource}"`);
-  if (!ml.modelAvailable) {
-    console.log('  (No trained model found, so predictions are expected to be demo results.)');
+  const imagePath = findSampleImage();
+  if (!imagePath) {
+    skip('No sample leaf image found. Set TEST_IMAGE="C:\\path\\leaf.jpg" and run again.');
   }
 
-  // --- register a dedicated user -----------------------------------------
+  console.log(`  Image : ${imagePath}`);
+  console.log(`  Source: Plant.id (live, paid request)\n${'='.repeat(60)}\n`);
+
+  // --- user ----------------------------------------------------------------
   const email = `integ${Date.now()}@example.com`;
   const registered = await api('POST', '/api/auth/register', {
     body: { name: 'Integration Tester', email, password: 'Test@123', confirmPassword: 'Test@123' },
@@ -115,59 +112,69 @@ async function run() {
   const login = await api('POST', '/api/auth/login', { body: { email, password: 'Test@123' } });
   const token = login.body.data.token;
 
-  await check('ML service is reachable from the backend', async () => {
-    const res = await api('GET', '/api/admin/ml-health', { token });
-    // /admin/ml-health requires an admin, so use the public health endpoint too.
-    assert.ok(res.status === 200 || res.status === 403, `unexpected status ${res.status}`);
-  });
+  // --- the real prediction -------------------------------------------------
+  let predictionId = null;
+  let prediction = null;
 
-  let mlPredictionId = null;
-
-  await check(`Prediction comes from the Python service (source = "${expectedSource}")`, async () => {
+  await check('POST /api/predictions returns a Plant.id result', async () => {
     const form = new FormData();
-    form.append('image', new Blob([makePng(0)], { type: 'image/png' }), 'leaf.png');
+    const bytes = fs.readFileSync(imagePath);
+    form.append('image', new Blob([bytes], { type: 'image/png' }), path.basename(imagePath));
+
     const res = await api('POST', '/api/predictions', { token, form });
-
     assert.strictEqual(res.status, 201, JSON.stringify(res.body));
+
+    prediction = res.body.data.prediction;
+    predictionId = prediction.id;
+
     assert.strictEqual(
-      res.body.data.prediction.predictionSource,
-      expectedSource,
-      `expected source "${expectedSource}", got "${res.body.data.prediction.predictionSource}" -- ` +
-        'the backend must relay the source reported by the ML service'
+      prediction.predictionSource,
+      'plant.id',
+      `expected the result to come from Plant.id, got "${prediction.predictionSource}"`
     );
-    mlPredictionId = res.body.data.prediction.id;
+    assert.ok(prediction.plantName, 'plant name missing');
+    assert.ok(prediction.diseaseName, 'disease name missing');
+    assert.ok(prediction.confidence > 0 && prediction.confidence <= 100, 'confidence out of range');
   });
 
-  await check('ML prediction carries a confidence and a top-1 class', async () => {
-    const res = await api('GET', `/api/predictions/${mlPredictionId}`, { token });
-    assert.ok(res.body.data.prediction.confidence > 0);
-    assert.ok(res.body.data.prediction.plantName);
-    assert.ok(res.body.data.prediction.diseaseName);
-    assert.ok(Array.isArray(res.body.data.prediction.topPredictions));
-    assert.ok(res.body.data.prediction.topPredictions.length > 0, 'no alternative classes returned');
-  });
-
-  await check('ML class maps to a seeded disease record with remedies', async () => {
-    const res = await api('GET', `/api/predictions/${mlPredictionId}`, { token });
-    assert.ok(res.body.data.disease, 'no disease record matched the ML class name');
-    assert.ok(res.body.data.disease.symptoms.length > 0);
-    assert.ok(res.body.data.disease.organicRemedies.length > 0);
-    assert.ok(res.body.data.disease.prevention.length > 0);
-  });
-
-  await check('The ML class name is stored on the record for auditing', async () => {
-    const res = await api('GET', `/api/predictions/${mlPredictionId}`, { token });
+  await check('The confidence is the value Plant.id returned', async () => {
+    const res = await api('GET', `/api/predictions/${predictionId}`, { token });
+    assert.strictEqual(res.status, 200);
+    assert.ok(res.body.data.prediction.topPredictions.length > 0, 'no alternatives returned');
     const top = res.body.data.prediction.topPredictions[0];
-    assert.ok(top.class_name, 'class_name missing from the model output');
-    assert.ok(top.class_name.includes('___'), 'class_name is not in Plant___Disease form');
+    assert.ok(top.disease, 'alternative is missing a disease name');
+    assert.ok(top.confidence > 0 && top.confidence <= 100, 'alternative confidence out of range');
   });
 
-  await check('Result page payload includes a disclaimer', async () => {
-    const res = await api('GET', `/api/predictions/${mlPredictionId}`, { token });
+  await check('The result resolves a remedy record or reports it honestly', async () => {
+    const res = await api('GET', `/api/predictions/${predictionId}`, { token });
+    const { disease, remedyNotice } = res.body.data;
+    if (disease) {
+      assert.ok(disease.symptoms.length > 0, 'matched record has no symptoms');
+      assert.ok(disease.organicRemedies.length > 0, 'matched record has no remedies');
+      assert.ok(disease.prevention.length > 0, 'matched record has no prevention');
+    } else {
+      // Unknown disease: the API must say so instead of inventing a plan.
+      assert.ok(remedyNotice && remedyNotice.length > 10, 'missing disease must be reported');
+    }
+  });
+
+  await check('History and dashboard aggregates include the scan', async () => {
+    const history = await api('GET', '/api/predictions/my', { token });
+    assert.strictEqual(history.status, 200);
+    assert.ok(history.body.data.length > 0);
+
+    const stats = await api('GET', '/api/predictions/stats/my', { token });
+    assert.strictEqual(stats.body.data.totalScans, 1);
+    assert.ok(stats.body.data.mostDetectedDisease || stats.body.data.statusCounts);
+  });
+
+  await check('Result payload includes a disclaimer', async () => {
+    const res = await api('GET', `/api/predictions/${predictionId}`, { token });
     assert.ok(res.body.data.disclaimer && res.body.data.disclaimer.length > 30);
   });
 
-  // --- cleanup ------------------------------------------------------------
+  // --- cleanup -------------------------------------------------------------
   await check('Integration user is cleaned up', async () => {
     const del = await api('DELETE', '/api/users/profile', { token, body: { password: 'Test@123' } });
     assert.strictEqual(del.status, 200);

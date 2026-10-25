@@ -1,0 +1,406 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--[if gte mso 9]>
+<xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page {
+  size: 21.0cm 29.7cm;
+  margin: 1.0in 1.0in 1.0in 1.25in;
+  mso-header-margin: 36.0pt;
+  mso-footer-margin: 36.0pt;
+}
+@page Section1 {
+  size: 21.0cm 29.7cm;
+  margin: 1.0in 1.0in 1.0in 1.25in;
+  mso-header-margin: 36.0pt;
+  mso-footer-margin: 36.0pt;
+  mso-header: h1;
+  mso-footer: f1;
+}
+div.Section1 { page: Section1; }
+table#hrdftrtbl { margin: 0px 0px 0px 0px; }
+body {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 12.0pt;
+  line-height: 150%;
+  color: #000;
+}
+p {
+  margin: 0 0 6pt 0;
+  line-height: 150%;
+  text-align: justify;
+}
+h1, h2, h3, h4 {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1b3d6d;
+  page-break-after: avoid;
+}
+h1 { font-size: 16.0pt; font-weight: bold; text-align: center; margin-top: 18pt; margin-bottom: 8pt; }
+h2 { font-size: 14.0pt; font-weight: bold; margin-top: 14pt; margin-bottom: 6pt; }
+h3 { font-size: 12.0pt; font-weight: bold; margin-top: 12pt; margin-bottom: 4pt; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8pt 0 12pt 0;
+  font-size: 10.0pt;
+}
+table, th, td {
+  border: 1.0pt solid #333333;
+}
+th {
+  background-color: #1b3d6d;
+  color: #ffffff;
+  padding: 6pt 8pt;
+  font-weight: bold;
+}
+td {
+  padding: 5pt 8pt;
+  vertical-align: top;
+}
+pre, code {
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 9.5pt;
+  background-color: #f1f5f9;
+}
+pre {
+  padding: 8pt;
+  border: 1pt solid #cbd5e1;
+  white-space: pre-wrap;
+}
+.page {
+  page-break-after: always;
+  mso-break-type: section-break;
+  padding-bottom: 20pt;
+}
+</style>
+</head>
+<body>
+<div class="Section1">
+
+
+<div class="print-btn-bar no-print" onclick="window.print()">
+  🖨️ Print / Save as PDF
+</div>
+
+<!-- ================= PAGE 1: TITLE PAGE ================= -->
+<div class="page">
+  <div class="page-content">
+    <div style="height: 25mm;"></div>
+    <h1 class="main-title">PROJECT<br>SYNOPSIS</h1>
+    <h2 class="sub-title">Project Title:</h2>
+    
+    <div class="project-name">
+      Plant Disease Detection & Remedy Recommendation System
+    </div>
+
+    <div style="height: 35mm;"></div>
+
+    <div class="title-footer">
+      <div>
+        Submitted to:<br>
+        <span style="font-weight: normal; font-size: 11pt;">MCA Department</span>
+      </div>
+      <div style="text-align: right;">
+        Submitted by:<br>
+        <span style="font-weight: normal; font-size: 11pt;">Saloni Sachindranath Narvekar</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    MCA.Department, DKTE Society's Textile & Engineering Institute, Ichalkaranji
+  </div>
+</div>
+
+<!-- ================= PAGE 2: INTRODUCTION ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="page-content">
+    <div class="section-title">Introduction</div>
+    
+    <p>
+      Agriculture is the backbone of the Indian socio-economic structure, employing over 50% of the country's population and serving as the primary source of livelihood in rural regions. However, agricultural output is constantly threatened by crop diseases triggered by pathogenic fungi, bacteria, viruses, and abiotic nutritional deficiencies. Worldwide, plant pathology estimates report that crop diseases cause between 20% to 40% loss of global agricultural food production every year. For marginal and smallholder farmers, foliar (leaf) infections represent a devastating threat to harvest volume and farm income.
+    </p>
+
+    <p>
+      Traditionally, diagnosing crop diseases requires farmers to rely on manual visual inspection, consult local agricultural extension officers, or send physical leaf samples to specialized government laboratories. This conventional methodology entails substantial delays—often taking days or weeks—during which infectious spores spread rapidly across neighboring fields. Furthermore, agricultural extension officers are overburdened and geographically inaccessible to remote villages. In recent years, while various smartphone applications have emerged, they either only identify the botanical species or stop abruptly at outputting a disease name without providing practical guidance on how to cure it. Consequently, there exists a critical gap between <strong>detection</strong> and <strong>action</strong>.
+    </p>
+
+    <p>
+      The <strong>Plant Disease Detection & Remedy Recommendation System</strong> is conceived and engineered to resolve this fundamental problem. It provides an automated, full-stack, AI-powered web platform that bridges foliar diagnosis with actionable agronomic treatment. By uploading a single photograph of an infected leaf through a mobile or desktop web browser, the system leverages state-of-the-art Deep Learning Computer Vision models through the <strong>Plant.id API v3</strong> to classify the plant species and detect disease conditions with high statistical confidence.
+    </p>
+
+    <p>
+      Crucially, the diagnosis is matched in real time against a curated agricultural knowledge base stored in MongoDB. The system instantly generates a comprehensive treatment advisory plan covering visible symptoms, causal agents, disease severity, <strong>organic remedies</strong> (e.g., neem formulations, Trichoderma, compost tea), <strong>certified chemical treatments</strong> (e.g., targeted fungicides and fertilizers), and <strong>prevention checklists</strong> for subsequent crop cycles. Built on modern web architecture (React 18, Node.js, Express, and MongoDB), the application democratizes laboratory-grade agricultural diagnostics for every farmer.
+    </p>
+  </div>
+  <div class="page-footer">
+    MCA.Department, DKTE Society's Textile & Engineering Institute, Ichalkaranji
+  </div>
+</div>
+
+<!-- ================= PAGE 3: MODIFICATION AND IMPROVEMENT ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="page-content">
+    <div class="section-title">MODIFICATION AND IMPROVEMENT OVER THE EXISTING IMPLEMENTATION</div>
+
+    <div class="sub-heading">Present State:</div>
+    <ul>
+      <li><strong>Manual and Inaccurate Diagnosis:</strong> Farmers rely on guesswork or informal advice from pesticide vendors, often misidentifying symptoms and applying the wrong treatment.</li>
+      <li><strong>Significant Time Delays:</strong> Physical agricultural lab testing requires several days for fungal culture incubation, allowing pathogens to spread unchecked.</li>
+      <li><strong>Incomplete Digital Applications:</strong> Existing mobile apps identify the disease name but provide no structured remedy plans or preventive guidance.</li>
+      <li><strong>Excessive Chemical Spraying:</strong> Absence of targeted advice leads to indiscriminate pesticide spraying, elevating input costs, damaging soil microflora, and causing chemical resistance.</li>
+      <li><strong>Lack of Historical Monitoring:</strong> Farmers have no digital records to track recurring seasonal infections or assess the effectiveness of past treatments.</li>
+      <li><strong>Blind Guesses on Bad Images:</strong> Existing classifiers frequently hallucinate diagnoses on non-plant or corrupt photographs without warning the user.</li>
+    </ul>
+
+    <div class="sub-heading">After implementation of project:</div>
+    <ul>
+      <li><strong>Instantaneous Automated AI Detection:</strong> Delivers precise plant species identification and disease diagnosis within seconds from a single smartphone leaf photograph.</li>
+      <li><strong>Dual-Action Treatment Advisory:</strong> Generates structured organic biological remedies for eco-friendly farming alongside certified chemical treatments for acute infections.</li>
+      <li><strong>Comprehensive Agronomic Information:</strong> Outlines visible symptoms, biological causes, severity indicators, and seasonal prevention checklists for every recognized condition.</li>
+      <li><strong>Persistent Digital History:</strong> Automatically archives all user scans with timestamps, enabling longitudinal crop health analysis across agricultural seasons.</li>
+      <li><strong>Transparent Confidence & Image Verification:</strong> Employs magic-byte validation, filters non-leaf uploads, and flags low-confidence readings to ensure diagnostic integrity.</li>
+      <li><strong>Dynamic Knowledge Base Curation:</strong> Features an authenticated administrator dashboard to update, add, and refine disease records and remedies without touching code.</li>
+    </ul>
+  </div>
+  <div class="page-footer">
+    MCA.Department, DKTE Society's Textile & Engineering Institute, Ichalkaranji
+  </div>
+</div>
+
+<!-- ================= PAGE 4: SCOPE ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="page-content">
+    <div class="section-title">SCOPE</div>
+
+    <p class="no-indent">
+      The scope of the <strong>Plant Disease Detection & Remedy Recommendation System</strong> covers the following technical, functional, and operational domains:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Multi-Crop Folio-Pathology Identification:</strong> The system covers 7 major agricultural crops—Tomato, Potato, Apple, Grape, Corn/Maize, Bell Pepper, and Strawberry—addressing over 31 foliar conditions, including bacterial spot, early/late blight, powdery mildew, rusts, leaf scorch, viral mosaics, and nutrient deficiencies.
+      </li>
+      <li>
+        <strong>Deep Learning Computer Vision Integration:</strong> Incorporates the Plant.id API v3 utilizing Convolutional Neural Networks (CNNs) trained on millions of botanical specimens to evaluate plant species taxonomy and leaf health probabilities simultaneously.
+      </li>
+      <li>
+        <strong>Intelligent Knowledge Matching Engine:</strong> Employs an intelligent matching service (<code>diseaseMatchService</code>) that translates Latin taxonomic suggestions into vernacular crop records and maps pathogen types into tailored agricultural treatment records.
+      </li>
+      <li>
+        <strong>Structured Advisory Module:</strong> Formulates actionable remedy plans partitioned into Symptoms, Causes, Organic Remedies, Chemical Treatments, and Seasonal Precautionary Checklists.
+      </li>
+      <li>
+        <strong>User Authentication & Longitudinal History:</strong> Implements secure JSON Web Token (JWT) authentication, profile management, and persistent scan history dashboards with statistical charts.
+      </li>
+      <li>
+        <strong>Role-Based Administrative Dashboard:</strong> Empowers authorized agronomists to perform CRUD operations on the disease catalogue, monitor AI endpoint reachability, and manage user accounts.
+      </li>
+      <li>
+        <strong>Responsive Web Accessibility:</strong> Built as a mobile-responsive web platform utilizing React 18, Vite, and Tailwind CSS, fully operational across desktops, tablets, and mobile smartphones without app store installation constraints.
+      </li>
+    </ul>
+  </div>
+  <div class="page-footer">
+    MCA.Department, DKTE Society's Textile & Engineering Institute, Ichalkaranji
+  </div>
+</div>
+
+<!-- ================= PAGE 5: SIGNIFICANCE ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="page-content">
+    <div class="section-title">SIGNIFICANCE OF PROJECT</div>
+
+    <p class="no-indent">
+      The significance of the project is to provide the following benefits:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Rapid Early-Stage Disease Containment:</strong> Enables farmers to diagnose foliar pathogens at the earliest onset, preventing localized infections from spreading across hectares of farmland.
+      </li>
+      <li>
+        <strong>Substantial Reduction in Input Costs:</strong> By pinpointing the exact disease and recommending targeted treatments and cost-effective organic alternatives, farmers avoid wasting thousands of rupees on inappropriate pesticides.
+      </li>
+      <li>
+        <strong>Promotion of Sustainable & Residue-Free Farming:</strong> Emphasizes biological and organic remedies—such as neem extract, Trichoderma bio-fungicides, and compost teas—preserving soil microbial balance and preventing toxic chemical runoff into groundwater.
+      </li>
+      <li>
+        <strong>Democratization of Agronomic Expertise:</strong> Puts scientific laboratory-level diagnostics directly into the pockets of smallholder and marginal farmers 24 hours a day, 7 days a week, completely free of consultation fees.
+      </li>
+      <li>
+        <strong>Data-Driven Historical Tracking:</strong> Enables farmers to maintain digital records of leaf health across multiple seasons, helping them identify recurring soil-borne or environmental pathogen cycles.
+      </li>
+      <li>
+        <strong>Improved Harvest Yield and Food Security:</strong> Timely mitigation protects crop quality, prevents premature leaf defoliation, and maximizes market harvest yields.
+      </li>
+    </ul>
+  </div>
+  <div class="page-footer">
+    MCA.Department, DKTE Society's Textile & Engineering Institute, Ichalkaranji
+  </div>
+</div>
+
+<!-- ================= PAGE 6: TOOLS AND TECHNOLOGY ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="page-content">
+    <div class="section-title">TOOLS AND TECHNOLOGY USED</div>
+
+    <div class="sub-heading">Tool:</div>
+    <ul>
+      <li>
+        <strong>Visual Studio Code (VS Code):</strong> A powerful, lightweight code editor developed by Microsoft providing integrated debugging, Git source control, syntax highlighting, and an integrated terminal.
+      </li>
+      <li>
+        <strong>Node.js (Runtime Environment):</strong> An open-source, cross-platform JavaScript runtime built on Chrome's V8 engine that executes JavaScript code on the server side using an asynchronous event-driven architecture.
+      </li>
+      <li>
+        <strong>MongoDB Compass:</strong> The official graphical user interface for MongoDB, providing full visualization of documents, query execution plans, and collection index management.
+      </li>
+      <li>
+        <strong>Postman / cURL:</strong> Industry-standard API client tools utilized for validating RESTful endpoints, testing multipart payload uploads, and inspecting JSON responses.
+      </li>
+      <li>
+        <strong>Git & GitHub:</strong> Distributed version control system used for tracking codebase modifications, branching, and repository management.
+      </li>
+    </ul>
+
+    <div class="sub-heading">Technology:</div>
+    <ul>
+      <li>
+        <strong>React.js (v18):</strong> A declarative, component-based frontend JavaScript library used for building dynamic Single Page Applications (SPAs) with Fast Refresh and state management.
+      </li>
+      <li>
+        <strong>Vite (v6):</strong> Next-generation frontend build tooling that provides instantaneous Hot Module Replacement (HMR) and optimized Rollup asset bundling.
+      </li>
+      <li>
+        <strong>Express.js (v4):</strong> A fast, unopinionated, minimalist backend web framework for Node.js used to design secure RESTful APIs and middleware pipelines.
+      </li>
+      <li>
+        <strong>MongoDB & Mongoose (v8):</strong> A document-oriented NoSQL database combined with the Mongoose Object Data Modeling (ODM) library for strict schema validation, indexes, and queries.
+      </li>
+      <li>
+        <strong>Tailwind CSS (v3):</strong> A utility-first CSS framework used for creating clean, responsive, modern user interfaces with dark/light mode support.
+      </li>
+      <li>
+        <strong>Plant.id API v3:</strong> A state-of-the-art Deep Learning Computer Vision API powered by Convolutional Neural Networks (CNNs) for plant species classification and foliar pathology identification.
+      </li>
+      <li>
+        <strong>JWT (JSON Web Tokens) & Bcrypt.js:</strong> Cryptographic token generation and 12-round salted password hashing for stateless user authentication and role-based security.
+      </li>
+      <li>
+        <strong>Multer:</strong> Node.js middleware for handling <code>multipart/form-data</code> with memory buffer streaming, eliminating orphaned temporary files.
+      </li>
+    </ul>
+  </div>
+  <div class="page-footer">
+    MCA.Department, DKTE Society's Textile & Engineering Institute, Ichalkaranji
+  </div>
+</div>
+
+<!-- ================= PAGE 7: TIME FRAME ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="page-content">
+    <div class="section-title">TIME FRAME REQUIRED FOR VARIOUS STAGES OF PROJECT IMPLEMENTATION</div>
+
+    <div style="height: 15mm;"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 15%;">Sr. No.</th>
+          <th style="width: 55%;">PHASES</th>
+          <th style="width: 30%;">TIME DURATION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="center">1.</td>
+          <td>Software Requirement Specification (SRS) & Literature Survey</td>
+          <td class="center">2 weeks</td>
+        </tr>
+        <tr>
+          <td class="center">2.</td>
+          <td>System Design (Architecture, Database Schema & Wireframing)</td>
+          <td class="center">3 weeks</td>
+        </tr>
+        <tr>
+          <td class="center">3.</td>
+          <td>Coding & System Integration (Frontend, Backend & AI Pipeline)</td>
+          <td class="center">4 weeks</td>
+        </tr>
+        <tr>
+          <td class="center">4.</td>
+          <td>Implementation & Knowledge Base Curation (Remedy Database)</td>
+          <td class="center">5 weeks</td>
+        </tr>
+        <tr>
+          <td class="center">5.</td>
+          <td>Testing, Optimization & Deployment Verification</td>
+          <td class="center">1 week</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="height: 35mm;"></div>
+  </div>
+  <div class="page-footer">
+    MCA.Department, DKTE Society's Textile & Engineering Institute, Ichalkaranji
+  </div>
+</div>
+
+<!-- ================= PAGE 8: REFERENCES ================= -->
+<div class="page" style="page-break-before:always; mso-break-type:section-break;">
+  <div class="page-content">
+    <div class="section-title">REFERENCES</div>
+
+    <div style="height: 10mm;"></div>
+
+    <div class="ref-item">
+      1. <strong>Mohanty, S. P., Hughes, D. P., & Salathé, M. (2016).</strong> <em>Using deep learning for image-based plant disease detection.</em> Frontiers in Plant Science, 7, 1419.
+    </div>
+
+    <div class="ref-item">
+      2. <strong>Hughes, D. P., & Salathé, M. (2015).</strong> <em>An open access repository of images on plant health to enable the development of mobile disease diagnostics.</em> arXiv preprint arXiv:1511.08060 (PlantVillage dataset).
+    </div>
+
+    <div class="ref-item">
+      3. <strong>Plant.id API Documentation (2024).</strong> <em>FlowerChecker s.r.o.</em> Machine Learning Plant Identification & Foliar Health Assessment API v3. https://plant.id/
+    </div>
+
+    <div class="ref-item">
+      4. <strong>MongoDB Documentation (2024).</strong> <em>MongoDB, Inc.</em> The Developer Data Platform & Mongoose ODM Reference. https://www.mongodb.com/docs/
+    </div>
+
+    <div class="ref-item">
+      5. <strong>React Documentation (2024).</strong> <em>Meta Open Source.</em> React 18: The Library for Web and Native User Interfaces. https://react.dev/
+    </div>
+
+    <div class="ref-item">
+      6. <strong>Express.js Documentation (2024).</strong> <em>OpenJS Foundation.</em> Fast, unopinionated, minimalist web framework for Node.js. https://expressjs.com/
+    </div>
+
+    <div class="ref-item">
+      7. <strong>ICAR (Indian Council of Agricultural Research).</strong> <em>Integrated Pest and Disease Management Guidelines for Cash and Food Crops.</em> Government of India. https://icar.org.in/
+    </div>
+  </div>
+  <div class="page-footer">
+    MCA.Department, DKTE Society's Textile & Engineering Institute, Ichalkaranji
+  </div>
+</div>
+
+
+</div>
+</body>
+</html>

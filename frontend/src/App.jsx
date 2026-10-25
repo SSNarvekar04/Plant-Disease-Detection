@@ -40,16 +40,15 @@ const ManagePredictions = lazy(() => import('./pages/admin/ManagePredictions'));
  *   ProtectedRoute  -> requires a valid JWT
  *   AdminRoute      -> requires the admin role
  */
-export default function App() {
+function AppContent() {
   // Reading the theme from context (instead of the DOM class) means the toast
   // container follows a toggle without needing a remount.
   const { theme } = useTheme();
 
   return (
-    <ThemeProvider>
-      <BrowserRouter>
-        <AuthProvider>
-          <Suspense fallback={<FullPageLoader />}>
+    <BrowserRouter>
+      <AuthProvider>
+        <Suspense fallback={<FullPageLoader />}>
             <Routes>
               {/* ------------------------------------------------ public */}
               <Route element={<PublicLayout />}>
@@ -108,6 +107,13 @@ export default function App() {
           />
         </AuthProvider>
       </BrowserRouter>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
     </ThemeProvider>
   );
 }

@@ -43,7 +43,7 @@ export default function Footer() {
             </p>
 
             <p className="mt-4 text-xs text-leaf-500 dark:text-leaf-500">
-              Built as a full-stack academic project: React, Node.js, MongoDB and TensorFlow.
+              Built as a full-stack academic project: React, Node.js, MongoDB and the Plant.id API.
             </p>
           </div>
 
@@ -78,7 +78,7 @@ export default function Footer() {
               Technology
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm text-leaf-700 dark:text-leaf-300">
-              {['React.js + Vite', 'Node.js + Express', 'MongoDB + Mongoose', 'Python + TensorFlow', 'JWT authentication'].map(
+              {['React.js + Vite', 'Node.js + Express', 'MongoDB + Mongoose', 'Plant.id AI API', 'JWT authentication'].map(
                 (item) => (
                   <li key={item}>{item}</li>
                 )

@@ -1245,6 +1245,94 @@ const diseases = [
     ],
     mlLabels: ['Tomato___healthy'],
   },
+  {
+    diseaseName: 'Nutrient Deficiency',
+    plantName: 'Tomato',
+    description:
+      'Nutrient deficiency in tomato occurs when the plant cannot take up essential macro or micronutrients (such as nitrogen, potassium, magnesium, or iron) from the soil. This leads to distinctive chlorosis (yellowing), necrosis (browning of leaf margins), stunted growth, and reduced fruit yield.',
+    symptoms: [
+      'Interveinal chlorosis (yellowing between leaf veins while veins stay green)',
+      'Yellowing and browning along outer leaf edges (scorch/necrosis)',
+      'Lower leaves turn pale yellow and drop prematurely (Nitrogen/Potassium deficiency)',
+      'Purple tinting on underside of leaves or leaf veins (Phosphorus deficiency)',
+      'Curling, cupping, or brittle texture of affected leaves',
+    ],
+    causes: [
+      'Depleted soil nutrients or lack of balanced fertilizer application',
+      'Incorrect soil pH (below 6.0 or above 6.8) locking nutrients in the soil',
+      'Overwatering or poorly drained soil causing root suffocation and poor uptake',
+      'Drought stress preventing nutrient transport through plant xylem',
+      'Root damage caused by nematodes or fungal root rots',
+    ],
+    severity: 'Medium',
+    pathogenType: 'Abiotic / Nutritional disorder',
+    favourableConditions: 'Sandy soil with low organic matter, waterlogged soil, extreme pH, or prolonged drought.',
+    organicRemedies: [
+      'Apply well-decomposed farmyard manure or vermicompost around the plant basin',
+      'Spray foliar seaweed extract or fish emulsion every 10-14 days for rapid micronutrient uptake',
+      'For magnesium deficiency (yellowing with green veins), dissolve 10g Epsom salt in 1 litre water and spray foliage',
+      'Apply wood ash or composted banana peels around base to supply organic potassium',
+      'Apply organic mulch (straw or dried leaves) to maintain moisture and soil microbial health',
+    ],
+    chemicalTreatment: [
+      'Foliar spray of water-soluble NPK 19:19:19 or 20:20:20 (5g per litre of water)',
+      'Apply Potassium Nitrate (13:0:45) at 4-5g/litre for edge scorch symptoms',
+      'For iron deficiency, apply chelated iron (Fe-EDTA 12%) foliar spray at 1-1.5g per litre',
+      'Conduct soil testing and apply agricultural lime (if soil pH < 6.0) or gypsum/sulfur (if pH > 7.2)',
+    ],
+    prevention: [
+      'Perform regular soil testing before every planting cycle',
+      'Maintain soil pH between 6.2 and 6.8 for optimal tomato nutrient availability',
+      'Ensure proper drainage and avoid waterlogging near the root zone',
+      'Follow a structured fertigation schedule matching vegetative and fruiting stages',
+    ],
+    precautions: [
+      'Avoid excessive chemical fertilizer application which causes salt buildup and root burn',
+      'Always spray foliar fertilizers early morning or late evening to prevent leaf burn',
+    ],
+    mlLabels: ['Tomato___nutrient_deficiency', 'Tomato___Nutrient_deficiency', 'nutrient deficiency'],
+  },
+  {
+    diseaseName: 'Powdery Mildew',
+    plantName: 'Tomato',
+    description:
+      'Tomato powdery mildew is caused by fungal pathogens from the Erysiphaceae family (Leveillula taurica and Oidium neolycopersici). It forms white, talcum powder-like patches on leaves, leading to yellowing, necrosis, and premature leaf drop.',
+    symptoms: [
+      'White to grey powdery fungal patches on upper and lower leaf surfaces',
+      'Bright yellow chlorotic spots on the upper leaf surface directly above fungal spots',
+      'Leaves curl upward and margins dry out',
+      'Severe infections cause leaves to turn brown, dry, and fall off',
+    ],
+    causes: [
+      'Airborne fungal spores of Leveillula taurica or Oidium species',
+      'Warm temperatures (20-27 °C) combined with high relative humidity',
+      'Overcrowded planting with low airflow and low light penetration',
+    ],
+    severity: 'High',
+    pathogenType: 'Fungal (erysiphaceae) pathogen',
+    favourableConditions: 'Warm, dry weather with high night humidity and dense plant canopies.',
+    organicRemedies: [
+      'Spray potassium bicarbonate or baking soda solution (5g baking soda + 2ml liquid soap in 1L water)',
+      'Apply 0.5% neem oil spray every 7-10 days on both leaf surfaces',
+      'Spray milk solution (1 part milk to 9 parts water) in bright sunlight',
+      'Prune infected lower foliage and destroy away from the field',
+    ],
+    chemicalTreatment: [
+      'Spray Azoxystrobin 23% SC (1ml/litre) or Difenoconazole 25% EC (0.5ml/litre)',
+      'Apply Wettable Sulfur 80% WP (2-3g/litre) during early infection stage',
+      'Use Myclobutanil or Penconazole according to label instructions',
+    ],
+    prevention: [
+      'Plant resistant or tolerant tomato hybrids',
+      'Maintain wide plant spacing and stake plants to ensure adequate ventilation',
+      'Avoid excess nitrogen fertilizers which promote dense, susceptible lush growth',
+    ],
+    precautions: [
+      'Never spray sulfur when temperatures exceed 32 °C to avoid phytotoxicity',
+      'Rotate chemical fungicide groups (FRAC codes) to prevent resistance development',
+    ],
+    mlLabels: ['Tomato___powdery_mildew', 'Tomato___Erysiphaceae', 'Erysiphaceae', 'powdery mildew'],
+  },
 ];
 
 module.exports = diseases;

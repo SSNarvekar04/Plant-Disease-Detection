@@ -26,7 +26,7 @@ const STEPS = [
   {
     icon: Brain,
     title: 'AI analyses the image',
-    text: 'A Convolutional Neural Network trained on thousands of labelled leaf images classifies the disease.',
+    text: 'The Plant.id API classifies the plant species and scores the most likely diseases from your photo.',
   },
   {
     icon: Sparkles,
@@ -43,8 +43,8 @@ const STEPS = [
 const FEATURES = [
   {
     icon: Brain,
-    title: 'Deep learning classifier',
-    text: 'A TensorFlow/Keras CNN distinguishes 29 plant disease classes across 7 crops.',
+    title: 'Plant.id AI analysis',
+    text: 'The Plant.id API identifies the plant species and the most likely disease, with a confidence score.',
   },
   {
     icon: BookOpen,
@@ -113,7 +113,7 @@ export default function Home() {
             <div className="animate-fade-in-up">
               <span className="badge border border-leaf-200 bg-white text-leaf-700 dark:border-leaf-700 dark:bg-leaf-900/60 dark:text-leaf-300">
                 <Leaf className="h-3.5 w-3.5" />
-                Powered by deep learning
+                Powered by the Plant.id API
               </span>
 
               <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">

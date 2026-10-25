@@ -30,9 +30,9 @@ const STACK = [
   },
   {
     icon: Brain,
-    title: 'Machine learning',
+    title: 'AI provider',
     color: 'text-violet-600 dark:text-violet-400',
-    items: ['Python and FastAPI', 'TensorFlow / Keras', 'CNN and transfer learning', 'scikit-learn metrics', 'Matplotlib reports'],
+    items: ['Plant.id v3 API', 'Species classification', 'Health assessment', 'Server-side API key', 'Timeout handling'],
   },
 ];
 
@@ -49,13 +49,13 @@ const PIPELINE = [
   },
   {
     step: '03',
-    title: 'Preprocessing',
-    text: 'The Python service converts the image to RGB, resizes it to the model input size and normalises it into the same range used during training.',
+    title: 'Send to Plant.id',
+    text: 'The image is Base64-encoded and posted to the Plant.id identification endpoint, which classifies the species and assesses plant health in a single request.',
   },
   {
     step: '04',
     title: 'Classification',
-    text: 'The Keras model returns a probability distribution over the 29 classes. The highest probability becomes the predicted disease and its confidence.',
+    text: 'Plant.id returns the plant species, a list of disease suggestions with their probabilities and a health verdict. The top suggestion becomes the predicted disease.',
   },
   {
     step: '05',
@@ -73,7 +73,7 @@ const PRINCIPLES = [
   {
     icon: ShieldCheck,
     title: 'Honest results',
-    text: 'Low-confidence predictions are flagged rather than hidden, and predictions produced without a trained model are clearly labelled as demo results.',
+    text: 'Low-confidence predictions are flagged rather than hidden, every result records that it came from Plant.id, and an outage produces a clear error instead of an invented diagnosis.',
   },
   {
     icon: Lock,
@@ -88,7 +88,7 @@ const PRINCIPLES = [
   {
     icon: Gauge,
     title: 'Performance',
-    text: 'The prediction services are loaded lazily and the model is kept in memory, so the first request is slower and later ones are fast.',
+    text: 'Requests to Plant.id carry a hard timeout, so a slow provider fails fast with a friendly message instead of hanging the page.',
   },
 ];
 
@@ -117,9 +117,9 @@ export default function About() {
             </h1>
             <p className="mt-5 text-pretty text-lg leading-relaxed text-leaf-700 dark:text-leaf-300">
               A full-stack web application that identifies plant leaf diseases from a photograph and
-              presents a practical remedy plan. It combines a deep learning classifier written in
-              Python with a Node.js and MongoDB backend and a React frontend, so the whole journey
-              — upload, diagnosis, advice and history — happens in one place.
+              presents a practical remedy plan. It uses the Plant.id API for the diagnosis, with a
+              Node.js and MongoDB backend and a React frontend, so the whole journey — upload,
+              diagnosis, advice and history — happens in one place.
             </p>
           </div>
         </div>
@@ -203,14 +203,14 @@ export default function About() {
                 Reliable, not just impressive
               </h2>
               <p className="mt-4 text-pretty leading-relaxed text-leaf-700 dark:text-leaf-300">
-                A tool that gives farming advice has to be careful about what it claims. The project
-                therefore separates demo behaviour from real inference, exposes confidence levels,
-                and keeps the security and storage concerns explicit instead of hiding them.
+              A tool that gives farming advice has to be careful about what it claims. The project
+              therefore reports only what Plant.id actually returned, exposes confidence levels,
+              and keeps the security and storage concerns explicit instead of hiding them.
               </p>
 
               <div className="mt-8 space-y-5">
                 {[
-                  { icon: Wrench, text: 'A dedicated training script converts the raw dataset, trains the model and saves it with the best checkpoint.' },
+                  { icon: Wrench, text: 'Every detection is matched against a curated catalogue of remedy records rather than a black-box answer.' },
                   { icon: Cloud, text: 'Cloudinary keeps the deployment lean; a local disk fallback means the project still runs without any account.' },
                   { icon: Terminal, text: 'Every layer — database, API, model, tests — is started with one documented command.' },
                 ].map((row) => {
@@ -260,9 +260,9 @@ export default function About() {
             <div className="flex-1">
               <h2 className="text-xl font-semibold">About accuracy</h2>
               <p className="mt-2 text-sm leading-relaxed text-leaf-700 dark:text-leaf-300">
-                Reported accuracy depends on the trained model and the dataset it was trained on. The
-                model is trained on laboratory-style images of individual leaves on plain
-                backgrounds, so field photographs with shadows, several leaves or a cluttered
+                Reported accuracy depends on the photo and on how specific the provider can be. The
+                model behind Plant.id is trained on laboratory-style images of individual leaves on
+                plain backgrounds, so field photographs with shadows, several leaves or a cluttered
                 background usually give lower confidence. Always treat a result as advice and
                 confirm it with a local agriculture expert before treating a crop.
               </p>
@@ -281,8 +281,8 @@ export default function About() {
           <div className="rounded-3xl bg-leaf-700 px-8 py-12 text-center dark:bg-leaf-800">
             <h2 className="text-3xl font-bold tracking-tight text-white">Try the detection</h2>
             <p className="mx-auto mt-3 max-w-lg text-leaf-50/90">
-              Upload a leaf image and see the classifier, the disease knowledge base and the remedy
-              plan working together.
+              Upload a leaf image and see the Plant.id diagnosis, the disease knowledge base and the
+              remedy plan working together.
             </p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <LinkButton to="/register" className="bg-white text-leaf-800 hover:bg-leaf-50 shadow-lg">

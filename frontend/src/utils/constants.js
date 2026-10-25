@@ -77,15 +77,14 @@ export function statusStyle(status = 'detected') {
   return STATUS_STYLES[status] || STATUS_STYLES.detected;
 }
 
-/** Marks predictions produced by the mock classifier rather than the model. */
+/** Marks where a prediction came from. Every AI answer comes from Plant.id. */
 export const SOURCE_STYLES = {
-  ml: { label: 'AI model', badge: 'bg-leaf-100 text-leaf-800 dark:bg-leaf-900 dark:text-leaf-200' },
-  mock: { label: 'Demo (mock) result', badge: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300' },
-  manual: { label: 'Manually entered', badge: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200' },
+  'plant.id': { label: 'Plant.id AI', badge: 'bg-leaf-100 text-leaf-800 dark:bg-leaf-900 dark:text-leaf-200' },
+  manual: { label: 'Sample record', badge: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200' },
 };
 
-export function sourceStyle(source = 'ml') {
-  return SOURCE_STYLES[source] || SOURCE_STYLES.ml;
+export function sourceStyle(source = 'plant.id') {
+  return SOURCE_STYLES[source] || SOURCE_STYLES['plant.id'];
 }
 
 /** Plants shown on the landing page and in the detection tips. */

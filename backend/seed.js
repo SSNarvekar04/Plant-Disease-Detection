@@ -210,7 +210,9 @@ async function seedPredictions(users, diseases) {
       plantName: disease.plantName,
       diseaseName: disease.diseaseName,
       confidence,
-      predictionSource: 'mock',
+      // Seed rows are sample history, not AI output -- label them honestly so
+      // no fabricated record is ever presented as a Plant.id result.
+      predictionSource: 'manual',
       predictionStatus: status,
       disease: disease._id,
       rawResult: { storageProvider: 'local', modelName: 'seed-demo-data' },

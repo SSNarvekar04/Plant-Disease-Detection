@@ -6,6 +6,7 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+~$*
 
 # Logs and scratch files
 *.log

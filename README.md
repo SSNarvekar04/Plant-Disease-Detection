@@ -1,493 +1,608 @@
 # Plant Disease Detection & Remedy Recommendation System
 
-An AI-assisted web application that identifies plant leaf diseases from a photo
-and recommends a full remedy plan — symptoms, causes, organic and chemical
-treatment, prevention and precautions.
+A full-stack web application that diagnoses plant leaf disease from a photograph
+and returns a practical remedy plan. Upload an image, get the plant species, the
+most likely disease with a confidence score, and read the matching symptoms,
+causes, chemical treatment, organic remedies and prevention checklist.
 
-The project is a complete three-tier application:
-
-| Tier | Stack | Port | Folder |
-| --- | --- | --- | --- |
-| Frontend | React 18, Vite, Tailwind CSS | `5173` | `frontend/` |
-| Backend | Node.js, Express, MongoDB, JWT | `5000` | `backend/` |
-| ML service | Python, FastAPI, TensorFlow/Keras | `8000` | `ml-service/` |
+The diagnosis itself is performed by the **[Plant.id](https://plant.id/) API**,
+called from a Node.js backend. The API key lives only in `backend/.env` and never
+reaches the browser. Every stored result is marked `predictionSource: "plant.id"`
+— there is no mock classifier and no invented confidence anywhere in the flow.
 
 ---
 
 ## Table of contents
 
-1. [Features](#features)
-2. [Screenshots](#screenshots)
-3. [How the prediction pipeline works](#how-the-prediction-pipeline-works)
-4. [Technology](#technology)
-5. [Prerequisites](#prerequisites)
+1. [Problem statement](#problem-statement)
+2. [Objectives](#objectives)
+3. [Architecture](#architecture)
+4. [How a prediction works](#how-a-prediction-works)
+5. [Technology](#technology)
 6. [Project structure](#project-structure)
 7. [Setup](#setup)
 8. [Running the application](#running-the-application)
 9. [Demo accounts](#demo-accounts)
-10. [Training the model](#training-the-model)
-11. [Testing](#testing)
-12. [API reference](#api-reference)
-13. [Configuration](#configuration)
-14. [Troubleshooting](#troubleshooting)
+10. [API reference](#api-reference)
+11. [Database design](#database-design)
+12. [Plant.id setup](#plantid-setup)
+13. [Testing](#testing)
+14. [Configuration](#configuration)
+15. [Screenshots](#screenshots)
+16. [Troubleshooting](#troubleshooting)
+17. [Future scope](#future-scope)
+18. [Disclaimer](#disclaimer)
 
 ---
 
-## Screenshots
+## Problem statement
 
-> **Coming soon.** Real screenshots are not committed yet. The planned capture
-> list — file names, screens and routes — is documented in
-> [`docs/screenshots/README.md`](docs/screenshots/README.md). Nothing is
-> faked in the meantime.
+Small and marginal farmers usually spot a problem on a leaf long before they can
+get an expert to look at it. Getting a diagnosis means either travelling to an
+agricultural extension office or waiting days for a laboratory result, and by
+then the infection has often spread. Existing mobile apps either identify the
+plant only, or stop at a disease name with no guidance on what to actually do.
 
----
+The result is a gap between **detection** and **action**: a farmer who can see
+the damage but cannot translate it into a treatment decision.
 
-## Features
-
-### Public
-
-- **Landing page** explaining the problem, the workflow and the supported crops.
-- **Disease library** — searchable and filterable catalogue of 29 conditions
-  across seven crops (Apple, Corn, Grape, Pepper, Potato, Strawberry, Tomato),
-  with severity, symptoms, causes, organic remedies, chemical treatment,
-  prevention and precautions.
-- **Disease details** — the full remedy plan for a single condition.
-- **About page** covering the architecture and the technology used.
-- Light/dark theme with no flash of the wrong theme on first paint.
-
-### Authenticated users
-
-- **Detection** — drag-and-drop image upload with client-side validation,
-  upload progress and an immediate result view.
-- **Result page** — the diagnosis, a confidence meter, the runner-up classes,
-  the matched remedy plan and the model disclaimer.
-- **Prediction history** — every scan with search, plant and status filters,
-  pagination and deletion.
-- **Dashboard** — total scans, outcomes, a 7-day activity chart and the most
-  detected conditions.
-- **Profile** — name/phone/location/avatar, email change, password change and
-  permanent account deletion.
-
-### Administrators
-
-- **Overview** — system counters, outcome and severity breakdowns, most detected
-  diseases, latest predictions and live AI service status.
-- **User management** — search, role changes, activation/deactivation, creation
-  and deletion. Self-demotion, self-deactivation and self-deletion are blocked.
-- **Disease management** — create, edit, hide and delete knowledge-base records,
-  including the mapping to the ML class label.
-- **Prediction oversight** — every prediction across all users, filterable, with
-  deletion.
-
-### Safety and honesty
-
-- Predictions are stored with `predictionSource` (`ml`, `mock` or `manual`), and
-  the UI badges demo results as **"Demo (mock) result"**. A fallback prediction
-  is never presented as a real diagnosis.
-- Every result carries a disclaimer advising confirmation by an agriculture
-  expert.
-- Below 70 % confidence the result page asks for a clearer image instead of
-  showing a confident answer.
-- Rate limiting on login, registration and prediction endpoints, plus an
-  in-flight guard that prevents a second concurrent prediction per user.
-- Helmet security headers, bcrypt password hashing and JWT with role checks.
+This project closes that gap in one place. A single photograph produces a
+diagnosis **and** a structured remedy plan — symptoms to confirm the problem,
+causes that explain how it spread, chemical treatment for immediate control,
+organic alternatives for low-residue farming, and prevention steps for the next
+season — together with a personal history so recurring problems become visible.
 
 ---
 
-## How the prediction pipeline works
+## Objectives
+
+1. **Diagnose from a photograph.** Accept a leaf image in the browser, validate
+   it, store it, and return the plant species, the most likely disease and a
+   confidence score.
+2. **Use a real AI provider, honestly.** Integrate the Plant.id API as the sole
+   diagnosis engine, keep the API key server-side, and label every result with
+   `predictionSource: "plant.id"`. When the provider is unreachable the API
+   returns a clear 503 message instead of fabricating a result.
+3. **Turn a disease name into advice.** Match the diagnosis to a curated
+   knowledge base so every result carries symptoms, causes, severity, organic
+   remedies, chemical treatment, precautions and prevention.
+4. **Keep a trustworthy history.** Persist every scan per user so dashboards can
+   show what keeps recurring, and let users revisit or delete their own records.
+5. **Support administration.** Let an admin manage users, manage the disease
+   catalogue, review all predictions and check whether the AI provider is live.
+6. **Be secure and deployable.** JWT authentication, bcrypt password hashing,
+   role-based access, rate limiting, input validation, and image storage that
+   works on local disk out of the box and on Cloudinary when configured.
+
+---
+
+## Architecture
 
 ```
-   leaf.jpg
-      │
-      ▼
-   React (ImageUploader)          validates type + size, previews the image
-      │  multipart/form-data  (field name: "image")
-      ▼
-   Express  POST /api/predictions  rate limit → single-flight guard → multer
-      │                              → magic-byte check → Cloudinary or local disk
-      ▼
-   Python  POST :8000/predict      FastAPI + Pillow → 224×224 RGB, raw 0–255
-      │
-      ▼
-   predictor.py                    loads models/plant_disease_cnn.keras
-      │                            (lazy, on the first request)
-      │  source: "ml"              real Keras inference
-      │  source: "mock"            deterministic fallback, no model file
-      ▼
-   Node resolves the disease       Disease.mlLabels ⇄ model class name
-      │
-      ▼
-   MongoDB                         one Prediction document per image
-      │
-      ▼
-   Result payload                  { prediction, disease, remedyNotice,
-                                     lowConfidenceWarning, disclaimer }
+┌───────────────────────────────┐
+│  React + Vite (port 5173)     │
+│  React Router · Axios · Tailwind │
+│  pages/ components/ services/  │
+└──────────────┬────────────────┘
+               │  HTTPS/JSON  (VITE_API_URL=http://localhost:5000/api)
+               │  Bearer JWT on every private call
+┌──────────────▼────────────────────────────────────────────┐
+│  Node.js + Express (port 5000)                            │
+│                                                            │
+│  routes/       auth · users · diseases · predictions · admin │
+│  middleware/   auth (JWT) · roles · upload (Multer) · rate limit │
+│  controllers/  request/response shaping                    │
+│  services/     plantIdService · diseaseMatchService · cloudinaryService │
+│  models/       User · Disease · Prediction (Mongoose)      │
+│  data/         diseaseCatalogue.js  (29 curated records)   │
+└───────┬───────────────────┬──────────────────┬─────────────┘
+        │                   │                  │
+        │ HTTPS             │ MongoDB          │ HTTPS
+        ▼                   ▼                  ▼
+┌───────────────┐   ┌──────────────┐   ┌──────────────────┐
+│  Plant.id API │   │  MongoDB     │   │  Cloudinary or   │
+│  /v3/identifi-│   │  users,      │   │  backend/uploads │
+│  cation       │   │  diseases,   │   │  (local disk)    │
+│               │   │  predictions │   │                  │
+└───────────────┘   └──────────────┘   └──────────────────┘
 ```
 
-Two endpoints exist on purpose:
+Design decisions worth knowing:
 
-- `POST /api/predictions` — analyse **and** save to history. Used by the UI.
-- `POST /api/predict` — analyse only, nothing is stored. Available for API demos.
+- **The AI call happens before the image is stored.** If Plant.id is down there
+  is no orphaned file left on disk.
+- **`plantIdService` is the only module that talks to Plant.id.** It maps every
+  provider failure (401/402/403, timeout, network) onto a friendly 503, so the
+  API key and internal errors never reach the client.
+- **Images are not stored in MongoDB.** They live on disk (or Cloudinary) and
+  only the URL is saved, which keeps documents small and backups easy.
+- **`ml-service/` is legacy.** The original Python/TensorFlow classifier is no
+  longer used by anything; it stays in the repository only as history.
 
-The saved record keeps its own copy of `plantName`, `diseaseName` and
-`confidence`, so deleting a disease from the knowledge base never breaks a
-user's history.
+---
+
+## How a prediction works
+
+```
+Browser                 Express                    Plant.id              MongoDB
+   │                       │                          │                     │
+   │ POST /api/predictions │                          │                     │
+   │  multipart: image     │                          │                     │
+   ├──────────────────────►│                          │                     │
+   │                       │  1. auth + rate limit    │                     │
+   │                       │  2. Multer validates     │                     │
+   │                       │     type, size, magic    │                     │
+   │                       │                          │                     │
+   │                       │ POST /v3/identification  │                     │
+   │                       │  images: [base64]        │                     │
+   │                       │  health: "all"           │                     │
+   │                       │  classification_level:   │                     │
+   │                       │          "species"       │                     │
+   │                       ├─────────────────────────►│                     │
+   │                       │◄─── classification.suggestions (species)       │
+   │                       │◄─── disease.suggestions  (name + probability)  │
+   │                       │◄─── is_healthy, is_plant, model_version        │
+   │                       │                          │                     │
+   │                       │  3. upload the image     │                     │
+   │                       │     (Cloudinary/local)   │                     │
+   │                       │                          │                     │
+   │                       │  4. match top-1 suggestion against the         │
+   │                       │     disease catalogue (see below)              │
+   │                       │                          │                     │
+   │                       │ POST /api/predictions    │                     │
+   │                       ├───────────────────────────────────────────────►│
+   │◄── 201 prediction + disease record + disclaimer                        │
+```
+
+### Species → crop
+
+Plant.id answers with scientific names (`Solanum lycopersicum`), while the
+knowledge base is organised by the crop name a farmer uses (`Tomato`).
+`plantIdService.resolvePlant()` maps one onto the other for the seven crops the
+catalogue covers: Tomato, Potato, Apple, Grape, Pepper, Strawberry and Corn.
+An unknown species is shown verbatim rather than guessed.
+
+### Disease matching
+
+Only the **top-1** suggestion may name the result, because the stored confidence
+belongs to that suggestion. Naming the result after a lower-ranked alternative
+would attach a number nobody measured to a disease Plant.id did not score that
+high. The order used by `diseaseMatchService` is:
+
+1. crop + disease name (exact, case-insensitive)
+2. crop + partial disease name (`"leaf blight"` vs `"leaf blight (isariopsis…)"`)
+3. crop + `pathogenType` — Plant.id reports the causal organism
+   (`Phytophthora`, `Begomovirus`, `Septoria`), and every catalogue record stores
+   the same organism in `pathogenType`, so this is a taxonomic match, not a guess
+4. normalised `mlLabels` match (PlantVillage-style label)
+5. disease name alone, only when it is unique across the catalogue
+6. **no match** → the prediction is still saved, but the response carries
+   `remedyNotice` explaining that no remedy record exists yet
+
+A healthy leaf short-circuits to the `Healthy` record with Plant.id's own
+probability for the health verdict.
+
+### Honesty rules
+
+| Situation | What the API returns |
+|---|---|
+| Plant.id succeeds | `predictionSource: "plant.id"`, real probability as `confidence` |
+| Plant.id times out / 5xx / network error | `503` — *"AI prediction service is temporarily unavailable. Please try again later."* |
+| `PLANT_ID_API_KEY` missing | `503` — *"AI prediction service is not configured. Set PLANT_ID_API_KEY in backend/.env and restart the server."* |
+| Out of credits (402) | `503` — *"AI prediction service quota has been exhausted."* |
+| Image is not a plant | `400` — asks the user for a clearer leaf photo |
+| No catalogue record matched | `201` prediction + `remedyNotice`, no invented treatment plan |
+| Confidence below the threshold | `predictionStatus: "low_confidence"` + a warning in `message` |
+
+There is no fallback classifier. A failed call is reported as a failure.
 
 ---
 
 ## Technology
 
-**Frontend** — React 18, Vite 6, React Router 6, Tailwind CSS 3, Axios,
-React Toastify, Lucide icons, react-chartjs-2.
+| Layer | Choice | Why |
+|---|---|---|
+| Frontend | React 18, Vite, JavaScript (JSX) | Fast dev server, simple build |
+| Routing | React Router v6 | Declarative routes, protected routes |
+| Styling | Tailwind CSS | Utility-first, dark mode via class |
+| HTTP | Axios | One configured instance, interceptors |
+| Charts | Chart.js (react-chartjs-2) | Admin and user dashboards |
+| Backend | Node.js, Express | Straightforward REST API |
+| Database | MongoDB + Mongoose | Flexible documents for nested remedy plans |
+| Auth | JWT + bcryptjs | Stateless tokens, hashed passwords |
+| Uploads | Multer (memory) + Cloudinary | Stream to storage, local-disk fallback |
+| Rate limiting | express-rate-limit | Protect auth and prediction endpoints |
+| AI provider | **Plant.id API v3** | Species classification + health assessment |
+| Validation | Manual per-route validators | Clear, field-level messages |
 
-**Backend** — Node.js, Express 4, Mongoose 8, jsonwebtoken, bcryptjs, multer,
-helmet, cors, express-rate-limit, Cloudinary (optional), morgan.
+### Prerequisites
 
-**ML service** — Python 3.9–3.12, FastAPI, Uvicorn, TensorFlow / Keras,
-Pillow, scikit-learn (evaluation), NumPy.
-
-**Data** — MongoDB (local `mongod` or MongoDB Atlas).
-
----
-
-## Prerequisites
-
-| Requirement | Version | Notes |
-| --- | --- | --- |
-| Node.js | 18 or newer | Developed on 24.x |
-| npm | 9 or newer | Ships with Node |
-| MongoDB | 6 or newer | Local service or Atlas cluster |
-| Python | **3.9 – 3.12** | 3.13 has no TensorFlow wheel yet |
-
-> **Important:** TensorFlow does not publish wheels for Python 3.13. If
-> `pip install -r requirements.txt` fails, install Python 3.11 and create the
-> virtual environment with it.
+| Tool | Version used | Notes |
+|---|---|---|
+| Node.js | 18+ (tested on 24.15) | ships with `npm` |
+| MongoDB | 6/7 or Atlas | local `mongod` or a free Atlas cluster |
+| Browser | any modern evergreen browser | |
 
 ---
 
 ## Project structure
 
 ```
-.
-├── backend/                  Express API
-│   ├── config/               environment parsing and validation
-│   ├── controllers/          auth, users, diseases, predictions, admin
-│   ├── data/                 disease catalogue seed source
-│   ├── middleware/           auth, admin guard, upload, error handling
-│   ├── models/               User, Disease, Prediction
-│   ├── routes/               auth, user, disease, prediction, admin
-│   ├── services/             mlService, cloudinaryService, diseaseMatchService
-│   ├── utils/                helpers, validators, in-flight guard
-│   ├── tests/                api.test.js, integration.test.js
-│   ├── seed.js               idempotent demo data
-│   └── server.js             entry point
-│
-├── frontend/                 React SPA
+Plant Disease Detection/
+├── README.md
+├── .gitignore
+├── backend/
+│   ├── server.js              app bootstrap: middleware, routes, health, errors
+│   ├── seed.js                demo users, 29 disease records, sample history
+│   ├── package.json            start · dev · seed · test · test:integration
+│   ├── .env.example            copy to .env and fill in
+│   ├── config/
+│   │   ├── env.js              typed config, reads .env once
+│   │   └── db.js               Mongoose connection
+│   ├── middleware/
+│   │   ├── authMiddleware.js   protect / requireRole
+│   │   ├── uploadMiddleware.js Multer + magic-byte image validation
+│   │   ├── rateLimitMiddleware.js
+│   │   └── errorMiddleware.js  ApiError handler, 404, JSON errors
+│   ├── routes/                 auth · users · diseases · predictions · admin
+│   ├── controllers/
+│   ├── services/
+│   │   ├── plantIdService.js   the only Plant.id client
+│   │   ├── diseaseMatchService.js
+│   │   └── cloudinaryService.js  Cloudinary or local disk
+│   ├── models/                 User.js · Disease.js · Prediction.js
+│   ├── data/diseaseCatalogue.js  29 curated remedy records
+│   ├── utils/                  helpers, response shapes
+│   ├── tests/
+│   │   ├── api.test.js         69 offline checks against a Plant.id stub
+│   │   └── integration.test.js 6 live checks against the real Plant.id API
+│   └── uploads/                local image storage (Cloudinary when configured)
+├── frontend/
+│   ├── vite.config.js          dev server + /api proxy
+│   ├── .env                    VITE_API_URL=http://localhost:5000/api
+│   ├── .env.example
 │   └── src/
-│       ├── components/       shared UI (Navbar, Footer, Modal, cards, …)
-│       ├── context/          AuthContext, ThemeContext
-│       ├── hooks/            useAsyncData, useDebounce
-│       ├── layouts/          PublicLayout, DashboardLayout
-│       ├── pages/            public pages, user pages, admin/ pages
-│       ├── services/         api.js (Axios), index.js (endpoints)
-│       ├── utils/            constants, formatters, imageValidation
-│       ├── App.jsx           routes
-│       ├── index.css         design system
-│       └── main.jsx          providers
-│
-├── ml-service/               FastAPI inference + training
-│   ├── app.py                FastAPI application
-│   ├── predictor.py          model loading, inference, mock classifier
-│   ├── preprocessing.py      image → tensor pipeline
-│   ├── classes.py            the 29 class labels
-│   ├── train.py              training and evaluation
-│   ├── prepare_dataset.py    dataset/ validation and train/validation split
-│   ├── test_app.py           endpoint tests
-│   ├── models/               trained model + labels.json (git-ignored)
-│   ├── data/                 class → disease mapping data
-│   └── dataset/              prepared dataset (git-ignored)
-│
-└── docs/
-    └── screenshots/          screenshot plan (images not committed yet)
+│       ├── App.jsx             routes
+│       ├── main.jsx
+│       ├── components/         Navbar, Footer, ImageUploader, PredictionCard,
+│       │                       PredictionResultView, DiseaseCard, Modal, charts
+│       ├── pages/              Home, About, DetectDisease, PredictionResult,
+│       │                       PredictionHistory, UserDashboard, DiseaseLibrary,
+│       │                       DiseaseDetails, Login, Register, UserProfile,
+│       │                       NotFound, admin/*
+│       ├── services/api.js     the single Axios instance
+│       ├── utils/              constants (badges, colours), formatters
+│       └── styles/             Tailwind entry point
+├── ml-service/                 LEGACY — no longer called by the app
+└── docs/screenshots/           capture plan for the screenshots below
 ```
 
 ---
 
 ## Setup
 
-### 1. Backend
+### 1. Database
+
+```bash
+# local MongoDB
+mongod
+
+# or create a free cluster at https://cloud.mongodb.com and copy its connection string
+```
+
+### 2. Backend
 
 ```bash
 cd backend
 npm install
-cp .env.example .env
+copy .env.example .env      # macOS/Linux: cp .env.example .env
 ```
 
 Edit `backend/.env`:
 
-- `MONGO_URI` — `mongodb://127.0.0.1:27017/plant_disease` for a local server, or
-  your Atlas connection string.
-- `JWT_SECRET` — generate one:
+- `MONGO_URI` — your connection string
+- `JWT_SECRET` — generate one: `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
+- `PLANT_ID_API_KEY` — see [Plant.id setup](#plantid-setup)
 
-  ```bash
-  node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
-  ```
+Then seed and start:
 
-- `CLIENT_URL` — `http://localhost:5173`.
-- Cloudinary keys are optional. Leave them blank to store uploads in
-  `backend/uploads/` instead.
+```bash
+npm run seed                # demo users, diseases, sample history
+npm run dev                 # http://localhost:5000
+```
 
-### 2. Frontend
+`npm run seed:fresh` wipes users, diseases and predictions first — use it to
+reset the database back to a clean demo state.
+
+### 3. Frontend
 
 ```bash
 cd frontend
 npm install
-cp .env.example .env
+copy .env .env               # if the file was not created for you
+npm run dev                  # http://localhost:5173
 ```
 
-`VITE_API_URL=/` uses the Vite dev proxy, so no CORS configuration is needed
-during development.
+### 4. Cloudinary (optional)
 
-### 3. ML service
-
-```bash
-cd ml-service
-python -m venv .venv
-.\.venv\Scripts\activate        # Windows
-# source .venv/bin/activate     # macOS / Linux
-
-pip install -r requirements.txt
-cp .env.example .env
-```
-
-The service starts **without** a trained model. In that mode `/predict` returns a
-deterministic mock classification and every result is labelled
-`source: "mock"`, so the whole application stays demo-able while
-[training](#training-the-model) the real model.
-
-### 4. Seed the database
-
-```bash
-cd backend
-npm run seed
-```
-
-This is idempotent — safe to run again. It creates the administrator account,
-the 29 disease records and a few example predictions so every screen has data.
-Use `npm run seed:fresh` to wipe and recreate.
+Leave the three Cloudinary variables empty and images are written to
+`backend/uploads/`. Fill them in and images go to Cloudinary instead; nothing
+else changes.
 
 ---
 
 ## Running the application
 
-Open three terminals:
+Exactly two processes are needed:
 
 ```bash
-# 1) ML service
-cd ml-service
-.\.venv\Scripts\activate
-python app.py                  # http://127.0.0.1:8000
-
-# 2) Backend
+# terminal 1 — backend
 cd backend
-npm run dev                    # http://localhost:5000
+npm run dev                  # http://localhost:5000
 
-# 3) Frontend
+# terminal 2 — frontend
 cd frontend
-npm run dev                    # http://localhost:5173
+npm run dev                  # http://localhost:5173
 ```
 
-Then open **http://localhost:5173**.
+Open **http://localhost:5173**.
+
+> The Vite dev server also proxies `/api` and `/uploads`, so both
+> `VITE_API_URL=/` and `VITE_API_URL=http://localhost:5000/api` work. The
+> `.env` file uses the absolute URL; CORS on the backend already allows
+> `http://localhost:5173`.
 
 Useful endpoints:
 
-- http://localhost:5173 — application
-- http://localhost:5000/api/health — API health and storage status
-- http://localhost:8000/health — ML service health (model loaded or mock)
+| URL | Purpose |
+|---|---|
+| http://localhost:5000/api/health | service health, prediction provider, DB state |
+| http://localhost:5000/api/admin/ml-health | Plant.id reachability (admin, no credits spent) |
+| http://localhost:5173 | the app |
 
-To serve the production build:
+Production build:
 
 ```bash
-cd frontend
-npm run build
-npm run preview
+cd frontend && npm run build     # outputs frontend/dist
+cd backend  && npm start         # nodemon off, NODE_ENV=production
 ```
 
 ---
 
 ## Demo accounts
 
+Created by `npm run seed`:
+
 | Role | Email | Password |
-| --- | --- | --- |
-| Administrator | `admin@plantdisease.com` | `Admin@123` |
+|---|---|---|
+| Admin | `admin@plantdisease.com` | `Admin@123` |
 | User | `ravi@example.com` | `User@123` |
 | User | `priya@example.com` | `User@123` |
 | User | `amit@example.com` | `User@123` |
 
-The administrator panel is at `/admin`; `/admin/login` has its own sign-in screen.
-Change the seeded passwords before using this anywhere public.
-
----
-
-## Training the model
-
-### Prepare the dataset
-
-Place the PlantVillage dataset in a folder with one directory per class, then:
-
-```bash
-cd ml-service
-python prepare_dataset.py --source "C:/datasets/PlantVillage"
-```
-
-This validates the folder layout and creates a reproducible 80/20
-`dataset/train` + `dataset/validation` split.
-
-### Train
-
-```bash
-# Small CNN trained from scratch -- runs on modest hardware
-python train.py
-
-# Quick smoke test
-python train.py --epochs 5
-
-# Transfer learning with a pretrained backbone (frozen, head only)
-python train.py --model efficientnet
-python train.py --model resnet50
-
-# Fine-tune the whole network
-python train.py --model efficientnet --unfreeze-backbone
-```
-
-Training writes:
-
-- `models/plant_disease_cnn.keras` — the model
-- `models/labels.json` — the class list in index order
-- `models/checkpoints/best.weights.h5` — best weights
-- `models/training_history.png` — accuracy/loss curves (needs `matplotlib`)
-
-`app.py` picks the model up automatically on the next request, and `/health`
-flips `model_loaded` to `true`.
-
-> **Normalisation is part of the saved graph.** The custom CNN contains an
-> explicit `Rescaling(1/255)`; `EfficientNetV2B0` rescales internally; for
-> `ResNet50`, which ships no normalisation layer, ImageNet standardisation is
-> added during training. Training and inference therefore both feed raw 0–255
-> pixels and cannot drift apart.
-
----
-
-## Testing
-
-Start the MongoDB, the backend and the ML service first — the integration and ML
-suites talk to running processes.
-
-```bash
-# Backend API suite (68 checks)
-cd backend
-npm test
-
-# Live Node -> Python -> MongoDB integration (7 checks)
-npm run test:integration
-
-# ML service endpoints (27 checks)
-cd ml-service
-.\.venv\Scripts\activate
-python test_app.py
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm run lint
-npm run build
-```
-
-The integration suite reads `/health` from the Python service and asserts the
-prediction source accordingly: it expects `"ml"` when a trained model is
-present and `"mock"` when the service falls back, so it never passes by
-pretending a demo result is a real diagnosis.
+Change `SEED_ADMIN_PASSWORD` before seeding anything you care about.
 
 ---
 
 ## API reference
 
-All responses use the envelope `{ success, message, data, pagination }`. Errors
-return `{ success: false, message, errors: [{ field, message }] }`.
+Base URL: `http://localhost:5000/api`. Private routes need
+`Authorization: Bearer <token>`.
 
-### Auth
+### Health
 
-| Method | Endpoint | Access | Description |
-| --- | --- | --- | --- |
-| `POST` | `/api/auth/register` | public | Create an account and sign in |
-| `POST` | `/api/auth/login` | public | Sign in |
-| `POST` | `/api/auth/logout` | public | Sign out |
-| `GET` | `/api/auth/me` | user | Current user |
-| `POST` | `/api/auth/verify-token` | user | Token check |
+| Method | Path | Notes |
+|---|---|---|
+| `GET` | `/health` | `database`, `storage`, `predictionProvider`, `predictionServiceConfigured` |
 
-### Users
+### Auth — `/api/auth`
 
-| Method | Endpoint | Access | Description |
-| --- | --- | --- | --- |
-| `GET` | `/api/users/profile` | user | Profile + counters |
-| `PUT` | `/api/users/profile` | user | Update name, phone, location, avatar |
-| `PUT` | `/api/users/password` | user | Change password |
-| `PUT` | `/api/users/email` | user | Change email |
-| `DELETE` | `/api/users/profile` | user | Delete account |
+| Method | Path | Notes |
+|---|---|---|
+| `POST` | `/register` | `name`, `email`, `password`, `confirmPassword` |
+| `POST` | `/login` | returns `{ user, token, expiresIn }` |
+| `POST` | `/logout` | client drops the token |
+| `POST` | `/verify-token` | validates a stored token |
+| `GET` | `/me` | current user |
+| `GET` | `/role-check` | role probe |
 
-### Diseases
+### Users — `/api/users`
 
-| Method | Endpoint | Access | Description |
-| --- | --- | --- | --- |
-| `GET` | `/api/diseases` | public | List (`search`, `plant`, `severity`, `sort`, `page`, `limit`) |
-| `GET` | `/api/diseases/plants` | public | Distinct plants and severities |
-| `GET` | `/api/diseases/:id` | public | Single record |
-| `POST` | `/api/diseases` | admin | Create |
-| `PUT` | `/api/diseases/:id` | admin | Update |
-| `DELETE` | `/api/diseases/:id` | admin | Delete |
+| Method | Path | Notes |
+|---|---|---|
+| `GET` | `/profile` | profile + own scan/disease counts |
+| `PUT` | `/profile` | name, phone, location, avatar |
+| `PUT` | `/password` | requires current password |
+| `PUT` | `/email` | requires current password |
+| `DELETE` | `/profile` | deletes the account and its history |
 
-### Predictions
+### Diseases — `/api/diseases`
 
-| Method | Endpoint | Access | Description |
-| --- | --- | --- | --- |
-| `POST` | `/api/predictions` | user | Analyse and save (`multipart`, field `image`) |
-| `POST` | `/api/predict` | user | Analyse only |
-| `GET` | `/api/predictions/my` | user | History (`search`, `plant`, `status`, `page`) |
-| `GET` | `/api/predictions/stats/my` | user | Dashboard aggregate |
-| `GET` | `/api/predictions/:id` | owner/admin | Single record |
-| `DELETE` | `/api/predictions/:id` | owner/admin | Delete record and image |
+| Method | Path | Notes |
+|---|---|---|
+| `GET` | `/` | paginated, filter by `search`, `plant`, `severity`, `sort` |
+| `GET` | `/plants` | distinct crops + severities for filters |
+| `GET` | `/:id` | one record |
+| `POST` | `/` | admin |
+| `PUT` | `/:id` | admin |
+| `DELETE` | `/:id` | admin |
 
-### Admin
+### Predictions — `/api/predictions`
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| `GET` | `/api/admin/statistics` | Dashboard counters and charts |
-| `GET` | `/api/admin/ml-health` | ML service liveness |
-| `GET` | `/api/admin/users` | List users (`search`, `role`, `page`) |
-| `POST` | `/api/admin/users` | Create a user |
-| `PUT` | `/api/admin/users/:id` | Change role / activation |
-| `DELETE` | `/api/admin/users/:id` | Delete user and their predictions |
-| `GET` | `/api/admin/predictions` | All predictions (`search`, `status`, `plant`) |
-| `DELETE` | `/api/admin/predictions/:id` | Delete a prediction |
+| Method | Path | Notes |
+|---|---|---|
+| `POST` | `/` | multipart field **`image`** → runs Plant.id and saves history |
+| `GET` | `/my` | own history, paginated, filter by `plant`, `status`, `search` |
+| `GET` | `/stats/my` | `totalScans`, `statusCounts`, `topDiseases`, `plantBreakdown` |
+| `GET` | `/:id` | full result: prediction + disease record + disclaimer |
+| `DELETE` | `/:id` | removes one of your scans |
 
-### ML service
+### Preview — `/api/predict`
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| `GET` | `/` | Service info |
-| `GET` | `/health` | Status, `model_loaded`, `model_loadable`, `tensorflow_installed`, class count, latency |
-| `GET` | `/classes` | Class list in index order |
-| `POST` | `/predict` | Classify an uploaded image |
+| Method | Path | Notes |
+|---|---|---|
+| `POST` | `/` | same analysis, **does not** write to history |
 
-`/health` separates three different facts so nothing is over-reported:
+### Admin — `/api/admin`
 
-| Field | Meaning |
-| --- | --- |
-| `model_available` | A model file exists on disk |
-| `tensorflow_installed` | TensorFlow is importable in this Python environment |
-| `model_loaded` | Both of the above, i.e. real inference can actually run |
+| Method | Path | Notes |
+|---|---|---|
+| `GET` | `/statistics` | counters, status breakdown, charts |
+| `GET` | `/ml-health` | Plant.id reachable, latency, endpoint, key configured |
+| `GET` | `/users` | list with scan counts, search |
+| `POST` | `/users` | create a user |
+| `GET` | `/users/:id` | one user |
+| `PUT` | `/users/:id` | role / active / profile |
+| `DELETE` | `/users/:id` | removes user and history |
+| `GET` | `/predictions` | all predictions, filters |
+| `DELETE` | `/predictions/:id` | remove any prediction |
+
+### Rate limits
+
+| Scope | Limit |
+|---|---|
+| `/api/auth/*` | 20 requests / 15 min per IP |
+| prediction endpoints | 15 requests / min per IP |
+
+---
+
+## Database design
+
+Three collections.
+
+### `users`
+
+| Field | Type | Notes |
+|---|---|---|
+| `name` | String | 3–80 chars |
+| `email` | String | unique index, lowercased |
+| `password` | String | bcrypt hash, `select: false`, never serialised |
+| `role` | enum `user` \| `admin` | indexed |
+| `phone`, `location`, `avatarUrl` | String | optional profile |
+| `isActive` | Boolean | soft disable |
+| `lastLoginAt` | Date | |
+| `createdAt`, `updatedAt` | Date | from `timestamps` |
+
+Indexes: `email` (unique), `role`, `createdAt`.
+
+### `diseases`
+
+The remedy knowledge base — 29 records covering all the crops the app detects.
+
+| Field | Type | Notes |
+|---|---|---|
+| `diseaseName` | String | e.g. `Late Blight` |
+| `plantName` | String | crop, e.g. `Tomato` |
+| `description` | String | plain-language explanation |
+| `symptoms` | [String] | how to confirm it in the field |
+| `causes` | [String] | how it spreads |
+| `severity` | enum | drives UI badges and filters |
+| `organicRemedies` | [String] | chemical-free control |
+| `chemicalTreatment` | [String] | labelled products and timing |
+| `prevention` | [String] | next-season practices |
+| `precautions` | [String] | safety notes when spraying |
+| `mlLabels` | [String] | PlantVillage-style labels, used by matcher step 4 |
+| `pathogenType` | String | causal organism, used by matcher step 3 |
+| `favourableConditions` | String | weather/conditions that trigger it |
+| `imageUrl`, `isActive` | | |
+
+### `predictions`
+
+| Field | Type | Notes |
+|---|---|---|
+| `user` | ObjectId → `users` | indexed |
+| `imageUrl` | String | Cloudinary URL or `http://…/uploads/…` |
+| `publicId` | String | Cloudinary public id (empty for local disk) |
+| `plantName` | String | resolved crop |
+| `diseaseName` | String | catalogue name if matched, otherwise Plant.id's wording |
+| `confidence` | Number | **0–100**, the top-1 probability from Plant.id |
+| `predictionSource` | enum `plant.id` \| `manual` | `manual` only for seeded sample rows |
+| `predictionStatus` | enum `healthy` \| `detected` \| `low_confidence` | |
+| `disease` | ObjectId → `diseases` | `null` when nothing matched |
+| `rawResult` | Mixed | model version, species, `isHealthy`, `topPredictions` |
+| `notes` | String | human-readable message shown on the result |
+| `createdAt` | Date | indexed |
+
+Indexes: `user`, `createdAt`, `disease`, `predictionStatus`.
+
+---
+
+## Plant.id setup
+
+1. Create an account at **<https://plant.id/>** and open the dashboard.
+2. Create an API key and copy it.
+3. Put it in **`backend/.env` only**:
+
+   ```env
+   PLANT_ID_API_KEY=your_real_key_here
+   PLANT_ID_API_BASE_URL=https://api.plant.id/v3
+   PLANT_ID_TIMEOUT_MS=45000
+   ```
+
+4. Restart the backend. Confirm it is wired up:
+
+   ```bash
+   curl http://localhost:5000/api/health
+   ```
+
+   ```json
+   { "data": { "predictionProvider": "plant.id", "predictionServiceConfigured": true } }
+   ```
+
+   ```bash
+   curl http://localhost:5000/api/admin/ml-health -H "Authorization: Bearer <admin token>"
+   ```
+
+   ```json
+   { "data": { "reachable": true, "latencyMs": 250, "details": { "apiKeyConfigured": true } } }
+   ```
+
+Notes:
+
+- **`health: "all"` costs 2 credits per request** (1 if the leaf is healthy).
+  The health check endpoint deliberately sends no image, so it is free.
+- The key is read server-side. It is never sent to the browser, never logged and
+  never included in an error response.
+- The tests do not need a key: `npm test` runs against a local HTTP stub that
+  returns a realistic Plant.id payload. Only `npm run test:integration` makes a
+  real, paid call.
+- If the API changes shape, `backend/services/plantIdService.js` is the only file
+  that needs to change.
+
+---
+
+## Testing
+
+```bash
+# Backend API suite — offline, needs only MongoDB
+cd backend
+npm test
+
+# Live Plant.id integration — makes a real paid API call, skips if no key/image
+TEST_IMAGE="C:\path\leaf.jpg" npm run test:integration
+
+# Frontend
+cd frontend
+npm run lint
+npm run build
+```
+
+**Backend suite — 69 checks.** Boots Express in-process against a local Plant.id
+stub, so it verifies validation, auth, RBAC, CRUD, history, stats, rate limits
+and error handling without spending credits:
+
+- auth, profile, password and account deletion
+- disease catalogue CRUD with admin-only guards
+- prediction happy path, invalid files, ownership, history, stats
+- the honesty rules: `predictionSource` is `plant.id`, the disclaimer is present,
+  and a lower-ranked suggestion never renames the result or borrows its confidence
+- admin statistics, user management, prediction moderation, Plant.id health
+
+**Integration suite — 6 checks.** Registers a throwaway user, uploads a real
+leaf photo, and asserts the live response: `predictionSource: "plant.id"`,
+confidence equal to the provider's own value, a remedy record *or* the honest
+"no remedy record" notice, dashboard aggregates and the disclaimer. It skips with
+a clear message when `PLANT_ID_API_KEY` is unset or no image is supplied.
 
 ---
 
@@ -495,73 +610,100 @@ return `{ success: false, message, errors: [{ field, message }] }`.
 
 ### `backend/.env`
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `PORT` | `5000` | API port |
-| `MONGO_URI` | `mongodb://127.0.0.1:27017/plant_disease` | Database |
-| `JWT_SECRET` | — | **Change this** |
-| `NODE_ENV` | `development` | Environment |
-| `CLIENT_URL` | `http://localhost:5173` | CORS origins (comma separated) |
-| `CLOUDINARY_*` | blank | Blank ⇒ local disk storage |
-| `ML_SERVICE_URL` | `http://127.0.0.1:8000` | Python service |
-| `ML_TIMEOUT_MS` | `45000` | Inference timeout |
-| `ALLOW_MOCK_PREDICTION` | `true` | Mock fallback; `false` in production |
-| `SEED_ADMIN_*` | see `.env.example` | Seeded admin account |
-
-### `ml-service/.env`
-
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `ML_PORT` | `8000` | Service port |
-| `MODEL_PATH` | `models/plant_disease_cnn.keras` | Trained model |
-| `ML_ALLOW_MOCK` | `true` | `false` ⇒ HTTP 503 instead of a fallback |
-| `ML_MAX_FILE_SIZE_MB` | `8` | Upload limit |
+| Variable | Example | Purpose |
+|---|---|---|
+| `PORT` | `5000` | Express port |
+| `MONGO_URI` | `mongodb://127.0.0.1:27017/plant_disease` | database |
+| `JWT_SECRET` | long random hex | token signing |
+| `NODE_ENV` | `development` \| `production` | also controls error stack traces |
+| `CLIENT_URL` | `http://localhost:5173` | allowed CORS origin |
+| `CLOUDINARY_CLOUD_NAME` / `_API_KEY` / `_API_SECRET` | | leave blank for local disk |
+| `CLOUDINARY_FOLDER` | `plant-disease` | upload folder |
+| `PLANT_ID_API_KEY` | | **server-side secret** |
+| `PLANT_ID_API_BASE_URL` | `https://api.plant.id/v3` | override for tests |
+| `PLANT_ID_TIMEOUT_MS` | `45000` | provider timeout |
+| `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` | | seed script admin |
 
 ### `frontend/.env`
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `VITE_API_URL` | `/` | `/` uses the dev proxy, or an absolute API URL |
-| `VITE_APP_NAME` | `Plant Disease Detection` | Display name |
+| Variable | Example | Purpose |
+|---|---|---|
+| `VITE_API_URL` | `http://localhost:5000/api` | API base URL |
+| `VITE_APP_NAME` | `Plant Disease Detection` | navbar and title |
+
+Never put a secret in `frontend/.env` — everything there is shipped to the
+browser.
+
+---
+
+## Screenshots
+
+Capture instructions live in [`docs/screenshots/README.md`](docs/screenshots/README.md).
+
+Planned shots: landing page, register/login, detection upload, result view with
+confidence and alternatives, disease detail page, user dashboard, history,
+profile, admin dashboard, admin disease CRUD, admin predictions, mobile layout.
 
 ---
 
 ## Troubleshooting
 
-**`ModuleNotFoundError: No module named 'tensorflow'`**
-Python 3.13 is not supported by TensorFlow. Install Python 3.11 and recreate the
-virtual environment.
+**`503 AI prediction service is temporarily unavailable`**
+Plant.id could not be reached. Check connectivity, your remaining credits, and
+`PLANT_ID_TIMEOUT_MS`. Restart the backend after editing `.env`.
 
-**Results say "Demo (mock) result"**
-Expected until a model has been trained. Check http://localhost:8000/health:
-`model_loaded: false` means real inference cannot run. Look at
-`model_available` (is the file there?) and `tensorflow_installed` (can Python
-even load it?) to see which half is missing. Train with `python train.py`, or set
-`MODEL_PATH` to an absolute path.
+**`503 AI prediction service is not configured`**
+`PLANT_ID_API_KEY` is missing or blank. Fill it in and restart.
 
-**`MongooseServerSelectionError`**
-MongoDB is not running or `MONGO_URI` is wrong. Verify with
-`mongosh` or check the Atlas network access list.
+**`429` on login or on upload**
+Rate limits: 20 auth requests / 15 min, 15 predictions / min. They are held
+in memory, so restarting the backend clears them.
 
-**Frontend shows "Cannot reach the server"**
-The backend is not running on port 5000. Confirm with
-`http://localhost:5000/api/health`.
+**Result says "no remedy record"**
+Plant.id returned a name the catalogue does not contain (for example a generic
+pathogen like `Erysiphaceae`). The prediction is stored correctly; an admin can
+add a matching record under **Admin → Diseases**.
 
-**CORS error in the console**
-Either use the Vite proxy (`VITE_API_URL=/`) or add the frontend origin to
-`CLIENT_URL` in `backend/.env`.
+**CORS error in the browser**
+`CLIENT_URL` in `backend/.env` must include `http://localhost:5173`, and the
+backend must be restarted afterwards.
 
-**Port already in use**
-Change `PORT`/`ML_PORT`, or pass `--port` to `npm run dev`.
+**Images 404 after re-seeding**
+`npm run seed` recreates the sample images it references. Run it again if you
+deleted files from `backend/uploads/`.
 
-**403 from an admin endpoint**
-The signed-in account has the `user` role. Sign in with the administrator
-account at `/admin/login`.
+**`EADDRINUSE: port 5000 in use`**
+Another backend is still running: `Get-NetTCPConnection -LocalPort 5000` and
+stop that process, or set a different `PORT`.
+
+---
+
+## Future scope
+
+- **Species-level remedies.** Plant.id sometimes answers with a pathogen genus
+  (`Erysiphaceae`) the catalogue does not cover. Adding records for those, or
+  asking the provider for a more specific disease model, would raise the match
+  rate.
+- **Offline / on-device inference.** A quantised model in the browser would let
+  the app diagnose in low-connectivity areas and use Plant.id only as a fallback.
+- **Multi-language guidance.** Localised remedy text and voice output for
+  farmers who are not comfortable reading English.
+- **Field-level scanning.** Multiple leaves per plant, severity scoring from
+  image segmentation, and a time-series view of how an infection progresses.
+- **Advisory notifications.** Alert a user when a disease they previously
+  recorded returns in favourable weather.
+- **Pesticide residue and resistance data.** Attach withdrawal periods and
+  resistance-management notes to chemical recommendations.
+- **Push to real farms.** An offline-first PWA plus a WhatsApp/SMS channel so
+  the same diagnosis can be delivered without a smartphone browser.
+- **Model evaluation harness.** Compare Plant.id's answers against a labelled
+  local dataset to report precision/recall per crop.
 
 ---
 
 ## Disclaimer
 
-Predictions are produced by a machine learning model and are an aid for decision
-making only. Always confirm with a local agriculture expert or extension officer
-before applying any treatment or pesticide, and follow the product label.
+This application is an academic project. Predictions are produced by the Plant.id
+API and are an aid for decision making only — **not** a certified agronomic
+diagnosis. Always confirm a result with a local agriculture expert before
+applying any treatment, and follow the pesticide label in your jurisdiction.

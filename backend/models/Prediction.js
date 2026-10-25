@@ -54,17 +54,16 @@ const predictionSchema = new mongoose.Schema(
 
     /**
      * How the result was produced:
-     *   'ml'        -> returned by the Python TensorFlow service
-     *   'mock'      -> deterministic fallback (ML service unavailable)
-     *   'manual'    -> submitted by an admin / corrected by the user
+     *   'plant.id' -> returned by the Plant.id API (the only AI source)
+     *   'manual'   -> entered by an admin / seeded demo data
      */
     predictionSource: {
       type: String,
       enum: {
-        values: ['ml', 'mock', 'manual'],
-        message: 'predictionSource must be ml, mock or manual',
+        values: ['plant.id', 'manual'],
+        message: 'predictionSource must be plant.id or manual',
       },
-      default: 'ml',
+      default: 'plant.id',
     },
 
     /**

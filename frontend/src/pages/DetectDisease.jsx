@@ -125,8 +125,8 @@ export default function DetectDisease() {
             <h2 className="text-base font-semibold">What happens when you click detect</h2>
             <ol className="mt-3 space-y-2 text-sm text-leaf-700 dark:text-leaf-300">
               {[
-                'The image is checked, stored, and sent to the TensorFlow service.',
-                'The model returns the most likely disease and a confidence score.',
+                'The image is checked, stored, and sent to the Plant.id API.',
+                'Plant.id returns the plant species, the most likely disease and its confidence.',
                 'The result is matched against the disease knowledge base for remedies.',
                 'The scan is added to your history so you can compare it later.',
               ].map((step, index) => (
